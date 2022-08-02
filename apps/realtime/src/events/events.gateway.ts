@@ -1,30 +1,51 @@
+import { Logger } from '@nestjs/common';
 import {
+  ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
   WsResponse,
 } from '@nestjs/websockets';
+import { randomUUID } from 'crypto';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway(8080, { transports: ['websocket'] })
-export class EventsGateway {
+@WebSocketGateway({
+  transports: ['websocket'],
+})
+export class EventsGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
+  private logger: Logger = new Logger('ZoomGateway');
   @WebSocketServer()
   server: Server;
 
+  afterInit(server: any) {
+    this.logger.debug(`init`);
+  }
+  handleDisconnect(@ConnectedSocket() socket: Socket) {
+    this.logger.debug(`disconnected : ${socket.id}`);
+  }
+  handleConnection(@ConnectedSocket() socket: Socket) {
+    this.logger.debug(`connected : ${socket.id}`);
+  }
+
   @SubscribeMessage('events')
-  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-    console.log('events', data);
+  events(@MessageBody() data: any): Observable<WsResponse<number>> {
+    this.logger.debug(`events : ${data}`);
     return from([1, 2, 3]).pipe(
       map((item) => ({ event: 'events', data: item })),
     );
   }
 
   @SubscribeMessage('identity')
-  async identity(@MessageBody() data: number): Promise<number> {
-    console.log('identity', data);
-    return data;
+  identity(@MessageBody() data: number): WsResponse<any> {
+    this.logger.debug(`identity : ${data}`);
+    return { event: 'identity', data: randomUUID() };
   }
 }
