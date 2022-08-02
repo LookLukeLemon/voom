@@ -9,7 +9,7 @@
 - Data channel
 - Adapter for LB
 
-Protocols
+### What you need to understand
 - ICE
 - STUN
 - NAT
