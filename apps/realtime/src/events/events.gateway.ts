@@ -43,7 +43,7 @@ export class EventsGateway
     socket.join(room_name);
     this.logger.debug(`join_room : ${room_name}`);
     socket.to(room_name).emit('welcome');
-    return { event: 'join_room', data: `you joined ${room_name}` };
+    return { event: 'join_room', data: { room_name } };
   }
 
   @SubscribeMessage('events')
