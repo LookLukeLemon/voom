@@ -1,4 +1,4 @@
-# Zoom - WebRTC MESH | SFU | MCU
+# Voom - WebRTC MESH | SFU | MCU
 
 ### What you gonna do
 
@@ -7,7 +7,7 @@
 - Signaling using socket.io
 - Transfer streaming video, audio and data
 - Data channel
-- Adapter for LB
+- Adapter for LBCancel changes
 
 ### What you need to understand
 - ICE
