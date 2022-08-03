@@ -21,7 +21,7 @@ import { Server, Socket } from 'socket.io';
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  private logger: Logger = new Logger('ZoomGateway');
+  private logger: Logger = new Logger('VoomGateway');
   @WebSocketServer()
   server: Server;
 
