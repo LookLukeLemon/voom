@@ -10,6 +10,7 @@
 - Adapter for LBCancel changes
 
 ### What you need to understand
+
 - ICE
 - STUN
 - NAT
