@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   EVENT_JOIN_ROOM,
   EVENT_WELCOME,
@@ -7,7 +8,9 @@ import {
 import useSocket from './useSocket';
 
 const useRoom = () => {
+  const router = useRouter();
   const handleJoinRoom = (data: any) => {
+    router.push(`/room/${data.room_name}`);
     console.log(MSG_JOIN_SUCCESS, data);
   };
 
