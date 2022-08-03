@@ -35,6 +35,17 @@ export class EventsGateway
     this.logger.debug(`connected : ${socket.id}`);
   }
 
+  @SubscribeMessage('join_room')
+  joinRoom(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() room_name: string,
+  ) {
+    socket.join(room_name);
+    this.logger.debug(`join_room : ${room_name}`);
+    socket.to(room_name).emit('welcome');
+    return { event: 'join_room', data: `you joined ${room_name}` };
+  }
+
   @SubscribeMessage('events')
   events(@MessageBody() data: any): Observable<WsResponse<number>> {
     this.logger.debug(`events : ${data}`);
