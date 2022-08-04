@@ -11,3 +11,14 @@ export type HomeFunctionProps = {
   image: string | StaticImageData;
   onClick: () => void;
 };
+
+export type SelectItemType = {
+  value: string | boolean;
+  image: JSX.Element;
+};
+
+export type FadeSelectType = {
+  selectedItem: SelectItemType;
+  items: SelectItemType[];
+  onChange: (itemValue: string) => void;
+};
