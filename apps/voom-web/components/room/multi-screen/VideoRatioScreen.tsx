@@ -2,8 +2,16 @@ import React, { useEffect, useRef } from 'react';
 
 const VideoRatioScreen = ({
   mediaStream,
+  isVisible,
+  isMuted,
+  onVisible,
+  onMuted,
 }: {
   mediaStream: MediaStream | undefined;
+  isVisible: boolean;
+  isMuted: boolean;
+  onVisible: (isVisible: boolean) => void;
+  onMuted: (isMuted: boolean) => void;
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 

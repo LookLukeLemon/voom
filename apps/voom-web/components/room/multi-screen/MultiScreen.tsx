@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import VideoRatioScreen from './VideoRatioScreen';
+import React, { useState } from 'react';
+import MyCameraScreen from './MyCameraScreen';
 
 const MultiScreen = () => {
   //   let peerConn: RTCPeerConnection;
-  const [myStream, setMyStream] = useState<MediaStream>();
+
   const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
   //   const makePeerConnection = (mediaStream: MediaStream | undefined) => {
   //     const myPeerConn = new RTCPeerConnection();
@@ -14,20 +14,6 @@ const MultiScreen = () => {
   //     peerConn = myPeerConn;
   //     return myPeerConn;
   //   };
-
-  const fetchMedia = async (): Promise<MediaStream | undefined> => {
-    try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
-
-      setMyStream(mediaStream);
-      return mediaStream;
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   //   const fetchDevices = async () => {
   //     try {
@@ -46,20 +32,16 @@ const MultiScreen = () => {
   // socket.emit('join_room', 'wanna join');
   //   };
 
-  useEffect(() => {
-    fetchMedia();
-  }, []);
-
   return (
     <div className="flex flex-col gap-6 py-6 bg-black h-full">
       <div className="flex-1 mx-6 flex justify-center">
-        <VideoRatioScreen mediaStream={myStream} />
+        <MyCameraScreen />
       </div>
 
       <div className="flex gap-6 mx-6 min-h-[200px]">
+        {/* <VideoRatioScreen mediaStream={myStream} />
         <VideoRatioScreen mediaStream={myStream} />
-        <VideoRatioScreen mediaStream={myStream} />
-        <VideoRatioScreen mediaStream={myStream} />
+        <VideoRatioScreen mediaStream={myStream} /> */}
       </div>
     </div>
   );
