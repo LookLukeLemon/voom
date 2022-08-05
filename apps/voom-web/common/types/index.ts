@@ -22,3 +22,9 @@ export type FadeSelectType = {
   items: SelectItemType[];
   onChange: (itemValue: string) => void;
 };
+
+export type CameraScreenType = {
+  mediaStream: MediaStream | undefined;
+  onChangeVisible: (isVisible: boolean) => void;
+  onChangeMuted: (isMuted: boolean) => void;
+};

@@ -25,15 +25,15 @@ const Room = ({ roomName }: { roomName: string }) => {
   // };
 
   return (
-    <div className="flex text-white h-full">
-      <div className="flex-1 flex flex-col">
+    <div className="flex text-white h-full divide-x divide-voom_base_third">
+      <div className="flex-1 flex flex-col divide-y divide-voom_base_third">
         <div className="flex-1">
           <MultiScreen />
         </div>
         <RoomFunction />
       </div>
-      <div className="w-96 flex flex-col">
-        <div className="flex-1 grid grid-rows-2">
+      <div className="w-96 flex flex-col divide-y divide-voom_base_third">
+        <div className="flex-1 flex flex-col">
           <Participants />
           <Chat />
         </div>
