@@ -1,5 +1,9 @@
+export const EVENT_FETCH_ROOMS = 'rooms';
 export const EVENT_JOIN_ROOM = 'join_room';
-export const EVENT_WELCOME = 'welcome';
+export const EVENT_LEAVE_ROOM = 'leave_room';
+export const EVENT_ENTER = 'enter';
+export const EVENT_LEAVE = 'leave';
+export const EVENT_SEND = 'send';
 
 export const ACTION_CREATE_ROOM = 'Create Room';
 
@@ -15,4 +19,12 @@ export const INFO_HOME_FUNCTION_SCHEDULE = 'plan your meetings';
 export const INFO_HOME_FUNCTION_SHARE_SCREEN = 'show your work';
 
 export const MSG_JOIN_SUCCESS = 'You are successfully joined';
-export const MSG_JOIN_SOMEBODY = 'Somebody joined';
+export const MSG_JOIN_SOMEBODY = 'has entered';
+export const MSG_LEFT_SOMEBODY = 'has left';
+
+export enum CHAT_MSG_TYPE {
+  ENTER,
+  LEAVE,
+  CONTENT,
+  NOTICE,
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Chat from './chat/Chat';
 import ChatAction from './chat-action/ChatAction';
 import MultiScreen from './multi-screen/MultiScreen';
@@ -30,7 +30,7 @@ const Room = ({ roomName }: { roomName: string }) => {
         <div className="flex-1">
           <MultiScreen />
         </div>
-        <RoomFunction />
+        <RoomFunction roomName={roomName} />
       </div>
       <div className="w-96 flex flex-col divide-y divide-voom_base_third">
         <div className="flex-1 flex flex-col">
