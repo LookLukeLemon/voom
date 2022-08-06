@@ -5,7 +5,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import React from 'react';
 
 const videoItems = [
-  { image: <VideoCameraIcon />, value: false },
+  { image: <VideoCameraIcon />, value: true },
   {
     image: (
       <>
@@ -30,14 +30,14 @@ const videoItems = [
         </svg>
       </>
     ),
-    value: true,
+    value: false,
   },
 ];
 
 const VideoOnOff = () => {
   const isMyCameraVisible = useAtomValue(isMyCameraVisibleAtom);
   const setIsMyCameraVisible = useSetAtom(isMyCameraVisibleAtom);
-  const selectedItem = isMyCameraVisible ? videoItems[1] : videoItems[0];
+  const selectedItem = isMyCameraVisible ? videoItems[0] : videoItems[1];
 
   return (
     <FadeSelect

@@ -15,10 +15,12 @@ import {
   TITLE_HOME_FUNCTION_SCHEDULE,
   TITLE_HOME_FUNCTION_SHARE_SCREEN,
 } from 'common/Constants';
+import { useRouter } from 'next/router';
 
 const useHomeFunction = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { onCreateRoom } = useRoom();
+  const { onJoinRoom, onFetchRooms } = useRoom();
 
   const functions: HomeFunctionProps[] = [
     {
@@ -26,7 +28,7 @@ const useHomeFunction = () => {
       desc: INFO_HOME_FUNCTION_NEW_MEETING,
       image: VoomImage,
       onClick: () => {
-        setIsOpen(!isOpen);
+        router.push('/new-room');
       },
     },
     {
@@ -34,7 +36,7 @@ const useHomeFunction = () => {
       desc: INFO_HOME_FUNCTION_JOIN_MEETING,
       image: PlusImage,
       onClick: () => {
-        return;
+        router.push('/rooms');
       },
     },
     {
@@ -59,7 +61,8 @@ const useHomeFunction = () => {
     isOpen,
     functions,
     onIsOpen: setIsOpen,
-    onCreateRoom,
+    onJoinRoom,
+    onFetchRooms,
   };
 };
 
