@@ -7,16 +7,16 @@ const useSocket = (events: SocketEventInitProps[]) => {
   const socket = useAtomValue(socketAtom);
 
   useEffect(() => {
-    events?.map((wsr) => {
+    events.map((wsr) => {
       socket.on(wsr.event, wsr.data);
     });
 
     return () => {
-      events?.map((wsr) => {
+      events.map((wsr) => {
         socket.off(wsr.event);
       });
     };
-  }, []);
+  }, [events]);
 
   return { socket };
 };

@@ -1,24 +1,16 @@
-import { isMyCameraMutedAtom, isMyCameraVisibleAtom } from 'common/store/room';
-import { useSetAtom } from 'jotai';
-import { useEffect, useState } from 'react';
+import {
+  isMyCameraMutedAtom,
+  isMyCameraVisibleAtom,
+  myStreamAtom,
+} from 'common/store/room';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { useEffect } from 'react';
 
 const useMyCamera = () => {
-  const [myStream, setMyStream] = useState<MediaStream>();
+  const myStream = useAtomValue(myStreamAtom);
+  const setMyStream = useSetAtom(myStreamAtom);
   const setIsMyCameraVisible = useSetAtom(isMyCameraVisibleAtom);
   const setIsMyCameraMuted = useSetAtom(isMyCameraMutedAtom);
-
-  const fetchMedia = async () => {
-    try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
-
-      setMyStream(mediaStream);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const handleChangeMyCameraVisible = (visible: boolean) => {
     if (!myStream) return;
@@ -32,6 +24,18 @@ const useMyCamera = () => {
 
     myStream.getAudioTracks().forEach((track) => (track.enabled = muted));
     setIsMyCameraMuted(muted);
+  };
+
+  const fetchMedia = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+      setMyStream(mediaStream);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {

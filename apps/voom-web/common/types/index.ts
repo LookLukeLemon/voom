@@ -2,7 +2,7 @@ import { StaticImageData } from 'next/image';
 
 export interface SocketEventInitProps<T = (p: any) => void> {
   event: string;
-  data: T;
+  data?: T;
 }
 
 export type HomeFunctionProps = {
@@ -24,7 +24,7 @@ export type FadeSelectType = {
 };
 
 export type CameraScreenType = {
-  mediaStream: MediaStream | undefined;
+  mediaStream: MediaStream | null;
   onChangeVisible: (isVisible: boolean) => void;
   onChangeMuted: (isMuted: boolean) => void;
 };

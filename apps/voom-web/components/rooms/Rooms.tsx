@@ -1,11 +1,14 @@
 import { DotsHorizontalIcon } from '@heroicons/react/solid';
 import BaseImage from 'common/BaseImage';
+import { roomsAtom } from 'common/store/room';
 import useRoom from 'hooks/useRoom';
+import { useAtomValue } from 'jotai';
 import AvatarImage from 'public/images/avatar.svg';
 import { useEffect } from 'react';
 
 const Rooms = () => {
-  const { rooms, onFetchRooms, onJoinRoom } = useRoom();
+  const rooms = useAtomValue(roomsAtom);
+  const { onFetchRooms, onJoinRoom } = useRoom({});
 
   useEffect(() => {
     onFetchRooms();

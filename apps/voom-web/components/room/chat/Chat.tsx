@@ -21,7 +21,7 @@ const Chat = () => {
           {messages.map((m: any) => {
             return (
               <ChatMessage
-                key={m.nickname}
+                key={m.id}
                 from=""
                 to=""
                 msg={m.payload}

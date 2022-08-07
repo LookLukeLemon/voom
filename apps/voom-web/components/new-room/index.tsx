@@ -11,7 +11,7 @@ import useRoom from 'hooks/useRoom';
 
 const NewRoom = () => {
   const roomNameRef = useRef<HTMLInputElement>(null);
-  const { onJoinRoom } = useRoom();
+  const { onJoinRoom } = useRoom({});
   const handleClickJoin = () => {
     if (!roomNameRef || !roomNameRef.current || !roomNameRef.current.value)
       return;

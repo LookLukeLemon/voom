@@ -2,6 +2,8 @@ import { isMyCameraMutedAtom, isMyCameraVisibleAtom } from 'common/store/room';
 import { CameraScreenType } from 'common/types';
 import CameraButton from 'components/common/CameraButton/CameraButton';
 import MuteButton from 'components/common/MuteButton/MuteButton';
+import useRoom from 'hooks/useRoom';
+import useWebRTC from 'hooks/useWebRTC';
 import { useAtomValue } from 'jotai';
 import React, { useEffect, useRef } from 'react';
 import useMyCamera from './useMyCamera';
@@ -53,6 +55,16 @@ const MyCameraScreenCore = ({
 const MyCameraScreen = () => {
   const { myStream, onChangeMyCameraMuted, onChangeMyCameraVisible } =
     useMyCamera();
+
+  const { myPeerConn } = useWebRTC();
+
+  const handleReceiveEntered = (payload: any) => {
+    console.log('mypeer', myPeerConn);
+  };
+
+  const { onLeaveRoom } = useRoom({
+    onReceiveEntered: handleReceiveEntered,
+  });
 
   return (
     <MyCameraScreenCore
