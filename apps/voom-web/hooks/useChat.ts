@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import {
   CHAT_MSG_TYPE,
   EVENT_ENTER,
@@ -8,14 +8,18 @@ import {
   MSG_LEFT_SOMEBODY,
 } from '../common/Constants';
 import useSocket from './useSocket';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { messagesAtom } from 'common/store/room/chat';
 
 const useChat = () => {
-  const [messages, setMessages] = useState<any>([]);
+  const messages = useAtomValue(messagesAtom);
+  const setMessages = useSetAtom(messagesAtom);
 
   const handleEntered = ({ nickname }: { nickname: string }) => {
-    setMessages([
-      ...messages,
+    setMessages((prevMessages) => [
+      ...prevMessages,
       {
+        id: nanoid(),
         type: CHAT_MSG_TYPE.ENTER,
         nickname,
         payload: `${nickname} ${MSG_JOIN_SOMEBODY}`,
@@ -24,9 +28,10 @@ const useChat = () => {
   };
 
   const handleLeaved = ({ nickname }: { nickname: string }) => {
-    setMessages([
-      ...messages,
+    setMessages((prevMessages) => [
+      ...prevMessages,
       {
+        id: nanoid(),
         type: CHAT_MSG_TYPE.LEAVE,
         nickname,
         payload: `${nickname} ${MSG_LEFT_SOMEBODY}`,

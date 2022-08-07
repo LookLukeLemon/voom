@@ -20,7 +20,7 @@ import { useRouter } from 'next/router';
 const useHomeFunction = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { onJoinRoom, onFetchRooms } = useRoom();
+  const { onJoinRoom, onFetchRooms } = useRoom({});
 
   const functions: HomeFunctionProps[] = [
     {
