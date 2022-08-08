@@ -75,10 +75,17 @@ const useWebRTC = (mediaStream: MediaStream | null) => {
   };
 
   const makePeerConnection = (roomName: string) => {
-    if (!mediaStream) return;
+    if (!mediaStream || !process.env.NEXT_PUBLIC_STUN_GOOGLE_LIST) return;
 
     try {
-      const newPeerConn = new RTCPeerConnection();
+      const STUN_LIST = process.env.NEXT_PUBLIC_STUN_GOOGLE_LIST.split(' ');
+      const newPeerConn = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: STUN_LIST,
+          },
+        ],
+      });
       newPeerConn.addEventListener('icecandidate', handleICE);
       newPeerConn.addEventListener('track', handleTrack);
       newPeerConn.addEventListener(
