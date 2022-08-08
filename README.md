@@ -23,7 +23,9 @@
 - [x] MyCamera Screen
 - [x] Participants Screen
 - [x] On / Off MyCamera
-- [x] Mute / Unmute
+- [x] Mute / Unmute MyAudio
+- [x] On / Off Peer Camera
+- [x] Mute / Unmute Peer Audio
 - [x] Fetch Public Rooms
 - [x] Create / Join / Leave Room
 - [x] Boradcast Enter / Leave Message on Chat
