@@ -28,7 +28,7 @@
 - [x] Create / Join / Leave Room
 - [x] Boradcast Enter / Leave Message on Chat
 - [x] Signaling (Offer, Answer, ICE candidate, Link remote stream)
-- [ ] Chat by text
+- [x] Chat by text through Data channel
 - [ ] Chat with emoji
 - [ ] Transfer images
 - [ ] Transfer media
