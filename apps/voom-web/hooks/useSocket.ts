@@ -8,7 +8,7 @@ const useSocket = (events: SocketEventInitProps[]) => {
 
   useEffect(() => {
     events.map((wsr) => {
-      socket.on(wsr.event, wsr.data);
+      if (wsr.data) socket.on(wsr.event, wsr.data);
     });
 
     return () => {

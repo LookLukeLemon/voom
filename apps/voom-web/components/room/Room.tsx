@@ -8,12 +8,12 @@ import useRoom from 'hooks/useRoom';
 import { useAtomValue } from 'jotai';
 import { myPeerConnAtom } from 'common/store/room';
 
-const Room = () => {
+const Room = ({ roomName }: { roomName: string }) => {
   return (
     <div className="flex text-white h-full divide-x divide-voom_base_third">
       <div className="flex-1 flex flex-col divide-y divide-voom_base_third">
         <div className="flex-1">
-          <MultiScreen />
+          <MultiScreen roomName={roomName} />
         </div>
 
         {/* <RoomFunction roomName={roomName} /> */}

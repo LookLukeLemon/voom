@@ -28,3 +28,19 @@ export type CameraScreenType = {
   onChangeVisible: (isVisible: boolean) => void;
   onChangeMuted: (isMuted: boolean) => void;
 };
+
+export type OfferAnswerPayload = {
+  payload: RTCSessionDescriptionInit;
+  roomName: string;
+};
+
+export type IceCandidatePayload = {
+  payload: RTCIceCandidate;
+  roomName: string;
+};
+
+export type PeerState = {
+  stream: MediaStream;
+  isVisible: boolean;
+  isMuted: boolean;
+};

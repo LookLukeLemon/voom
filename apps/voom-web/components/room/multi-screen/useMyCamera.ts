@@ -16,6 +16,7 @@ const useMyCamera = () => {
     if (!myStream) return;
 
     myStream.getVideoTracks().forEach((track) => (track.enabled = visible));
+
     setIsMyCameraVisible(visible);
   };
 
@@ -27,6 +28,7 @@ const useMyCamera = () => {
   };
 
   const fetchMedia = async () => {
+    if (myStream) return;
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         audio: true,

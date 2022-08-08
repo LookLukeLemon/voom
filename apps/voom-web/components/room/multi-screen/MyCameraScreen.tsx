@@ -1,4 +1,8 @@
-import { isMyCameraMutedAtom, isMyCameraVisibleAtom } from 'common/store/room';
+import {
+  isMyCameraMutedAtom,
+  isMyCameraVisibleAtom,
+  roomNameAtom,
+} from 'common/store/room';
 import { CameraScreenType } from 'common/types';
 import CameraButton from 'components/common/CameraButton/CameraButton';
 import MuteButton from 'components/common/MuteButton/MuteButton';
@@ -52,17 +56,22 @@ const MyCameraScreenCore = ({
   );
 };
 
-const MyCameraScreen = () => {
+const MyCameraScreen = ({ roomName }: { roomName: string }) => {
   const { myStream, onChangeMyCameraMuted, onChangeMyCameraVisible } =
     useMyCamera();
 
-  const { myPeerConn } = useWebRTC();
+  const { makePeerConnection, sendOffer } = useWebRTC(myStream);
 
-  const handleReceiveEntered = (payload: any) => {
-    console.log('mypeer', myPeerConn);
+  const handleReceiveEntered = async (payload: any) => {
+    const peerConn = makePeerConnection(roomName);
+    if (!peerConn) return;
+
+    const offer = await peerConn.createOffer();
+    peerConn.setLocalDescription(offer);
+    sendOffer({ payload: offer, roomName });
   };
 
-  const { onLeaveRoom } = useRoom({
+  useRoom({
     onReceiveEntered: handleReceiveEntered,
   });
 
