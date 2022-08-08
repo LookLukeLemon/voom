@@ -10,6 +10,8 @@ export const EVENT_ICE = 'ice';
 
 export const ACTION_CREATE_ROOM = 'Create Room';
 
+export const TITLE_MEETING = 'Voom Meeting';
+export const TITLE_HOME = 'Home';
 export const TITLE_CREATE_ROOM = 'Create New Room';
 export const TITLE_HOME_FUNCTION_NEW_MEETING = 'New Meeting';
 export const TITLE_HOME_FUNCTION_JOIN_MEETING = 'Join Meeting';

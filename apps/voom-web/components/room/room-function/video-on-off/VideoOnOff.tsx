@@ -1,7 +1,8 @@
 import { VideoCameraIcon } from '@heroicons/react/solid';
 import { isMyCameraVisibleAtom } from 'common/store/room';
 import FadeSelect from 'components/common/FadeSelect/FadeSelect';
-import { useAtomValue, useSetAtom } from 'jotai';
+import useMyCamera from 'components/room/multi-screen/useMyCamera';
+import { useAtomValue } from 'jotai';
 import React from 'react';
 
 const videoItems = [
@@ -35,8 +36,8 @@ const videoItems = [
 ];
 
 const VideoOnOff = () => {
+  const { onChangeMyCameraVisible } = useMyCamera();
   const isMyCameraVisible = useAtomValue(isMyCameraVisibleAtom);
-  const setIsMyCameraVisible = useSetAtom(isMyCameraVisibleAtom);
   const selectedItem = isMyCameraVisible ? videoItems[0] : videoItems[1];
 
   return (
@@ -44,7 +45,7 @@ const VideoOnOff = () => {
       items={videoItems}
       selectedItem={selectedItem}
       onChange={(itemValue) => {
-        setIsMyCameraVisible(Boolean(itemValue));
+        onChangeMyCameraVisible(Boolean(itemValue));
       }}
     />
   );
