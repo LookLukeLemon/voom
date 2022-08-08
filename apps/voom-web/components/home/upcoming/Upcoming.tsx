@@ -4,6 +4,10 @@ import {
 } from '@heroicons/react/outline';
 import BaseImage from 'common/BaseImage';
 import AvatarImage from 'public/images/avatar.svg';
+import AvatarTwoImage from 'public/images/avatar-2.svg';
+import AvatarThreeImage from 'public/images/avatar-3.svg';
+import AvatarFourImage from 'public/images/avatar-4.svg';
+import AvatarFiveImage from 'public/images/avatar-5.svg';
 import BackImage from 'public/images/back.jpg';
 
 const Upcoming = () => {
@@ -39,10 +43,11 @@ const Upcoming = () => {
                 <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
               </div>
               <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-                <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
-              </div>
-              <div className="relative h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
-                +6
+                <BaseImage
+                  src={AvatarTwoImage}
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
             </div>
 
@@ -72,10 +77,11 @@ const Upcoming = () => {
               </div>
 
               <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-                <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
-              </div>
-              <div className="relative h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
-                +6
+                <BaseImage
+                  src={AvatarThreeImage}
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
             </div>
 
@@ -101,11 +107,19 @@ const Upcoming = () => {
           <div className="flex-1 h-full flex items-end">
             <div className="flex gap-2 flex-1">
               <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-                <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
+                <BaseImage
+                  src={AvatarFiveImage}
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
 
               <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-                <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
+                <BaseImage
+                  src={AvatarFourImage}
+                  layout="fill"
+                  objectFit="cover"
+                />
               </div>
               <div className="relative h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
                 +6

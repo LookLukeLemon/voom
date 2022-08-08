@@ -1,7 +1,8 @@
 import { MicrophoneIcon } from '@heroicons/react/solid';
 import { isMyCameraMutedAtom } from 'common/store/room';
 import FadeSelect from 'components/common/FadeSelect/FadeSelect';
-import { useAtomValue, useSetAtom } from 'jotai';
+import useMyCamera from 'components/room/multi-screen/useMyCamera';
+import { useAtomValue } from 'jotai';
 import React from 'react';
 
 const muteItems = [
@@ -35,8 +36,8 @@ const muteItems = [
 ];
 
 const Mute = () => {
+  const { onChangeMyCameraMuted } = useMyCamera();
   const isMuted = useAtomValue(isMyCameraMutedAtom);
-  const setIsMuted = useSetAtom(isMyCameraMutedAtom);
   const selectedItem = isMuted ? muteItems[1] : muteItems[0];
 
   return (
@@ -44,7 +45,7 @@ const Mute = () => {
       items={muteItems}
       selectedItem={selectedItem}
       onChange={(itemValue) => {
-        setIsMuted(Boolean(itemValue));
+        onChangeMyCameraMuted(Boolean(itemValue));
       }}
     />
   );

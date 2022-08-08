@@ -17,8 +17,6 @@ const Participants = () => {
       <div className="w-full h-[1px] bg-voom_base_third" />
       <ParticipantList>
         <ParticipantItem />
-        <ParticipantItem />
-        <ParticipantItem />
       </ParticipantList>
     </div>
   );

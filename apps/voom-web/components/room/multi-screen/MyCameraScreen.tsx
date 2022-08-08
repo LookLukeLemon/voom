@@ -36,12 +36,12 @@ const MyCameraScreenCore = ({
         playsInline
       />
 
-      <div className="absolute w-full bottom-0">
-        <div className="absolute left-4 bottom-4 flex gap-4 bg-voom_base_third/80 rounded-xl h-12 px-4 items-center justify-center text-sm">
-          <h5>{nickname}</h5>
+      <div className="w-full flex items-end justify-between h-full gap-4 absolute">
+        <div className="truncate mb-4 ml-4 flex gap-4 bg-voom_base_third/80 rounded-xl h-12 px-4 items-center justify-center text-sm">
+          <h5 className="flex-1 truncate">{nickname}</h5>
           <div className="rounded-full w-2 h-2 bg-green-500" />
         </div>
-        <div className="absolute right-4 bottom-4 flex gap-4">
+        <div className="mr-4 mb-4 flex gap-4">
           <CameraButton
             isVisible={isMyCameraVisible}
             onChange={onChangeVisible}
