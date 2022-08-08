@@ -24,7 +24,7 @@ export const INFO_HOME_FUNCTION_SHARE_SCREEN = 'show your work';
 export const MSG_JOIN_SUCCESS = 'You are successfully joined';
 export const MSG_JOIN_SOMEBODY = 'has entered';
 export const MSG_LEFT_SOMEBODY = 'has left';
-
+export const CHAT_CHANNEL = 'chat channel';
 export enum CHAT_MSG_TYPE {
   ENTER,
   LEAVE,

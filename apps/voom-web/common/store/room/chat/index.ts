@@ -1,3 +1,4 @@
+import { ChatMessage } from 'common/types';
 import { atom } from 'jotai';
 
-export const messagesAtom = atom<any[]>([]);
+export const messagesAtom = atom<ChatMessage[]>([]);

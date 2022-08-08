@@ -1,3 +1,4 @@
+import { CHAT_MSG_TYPE } from 'common/Constants';
 import { StaticImageData } from 'next/image';
 
 export interface SocketEventInitProps<T = (p: any) => void> {
@@ -43,4 +44,12 @@ export type PeerState = {
   stream: MediaStream;
   isVisible: boolean;
   isMuted: boolean;
+};
+
+export type ChatMessage = {
+  id: string;
+  type: CHAT_MSG_TYPE;
+  from: string;
+  nickname: string;
+  payload: string;
 };
