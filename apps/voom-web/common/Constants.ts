@@ -4,6 +4,9 @@ export const EVENT_LEAVE_ROOM = 'leave_room';
 export const EVENT_ENTER = 'enter';
 export const EVENT_LEAVE = 'leave';
 export const EVENT_SEND = 'send';
+export const EVENT_OFFER = 'offer';
+export const EVENT_ANSWER = 'answer';
+export const EVENT_ICE = 'ice';
 
 export const ACTION_CREATE_ROOM = 'Create Room';
 

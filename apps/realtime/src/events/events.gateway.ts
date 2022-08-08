@@ -15,10 +15,19 @@ import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Server, Socket } from 'socket.io';
 import {
+  EVENT_ANSWER,
+  EVENT_CONNECTED,
+  EVENT_DISCONNECTED,
+  EVENT_DISCONNECTING,
+  EVENT_ENTER,
+  EVENT_ICE,
   EVENT_JOIN_ROOM,
+  EVENT_LEAVE,
   EVENT_LEAVE_ROOM,
+  EVENT_OFFER,
   EVENT_ROOMS,
 } from '../common/Constants';
+import { IceCandidatePayload, OfferAnswerPayload } from '../common/types';
 
 @WebSocketGateway({
   transports: ['websocket'],
@@ -34,18 +43,18 @@ export class EventsGateway
     this.logger.debug(`init`);
   }
   handleDisconnect(@ConnectedSocket() socket: Socket) {
-    this.logger.debug(`disconnected : ${socket.id}`);
-    socket.off('disconnecting', () => this.handleDisconnecting(socket));
+    this.logger.debug(`${EVENT_DISCONNECTED} : ${socket.id}`);
+    socket.off(EVENT_DISCONNECTING, () => this.handleDisconnecting(socket));
   }
   async handleConnection(@ConnectedSocket() socket: Socket) {
-    this.logger.debug(`connected : ${socket.id}`);
-    socket.on('disconnecting', () => this.handleDisconnecting(socket));
+    this.logger.debug(`${EVENT_CONNECTED} : ${socket.id}`);
+    socket.on(EVENT_DISCONNECTING, () => this.handleDisconnecting(socket));
   }
 
   handleDisconnecting(socket: Socket) {
-    this.logger.debug(`disconnecting : ${socket.id}`);
+    this.logger.debug(`${EVENT_DISCONNECTING} : ${socket.id}`);
     socket.rooms.forEach((room) =>
-      socket.to(room).emit('leave', { nickname: socket.id }),
+      socket.to(room).emit(EVENT_LEAVE, { nickname: socket.id }),
     );
   }
 
@@ -61,7 +70,7 @@ export class EventsGateway
         ),
       ),
     ];
-    return { event: 'rooms', data: publicRooms };
+    return { event: EVENT_ROOMS, data: publicRooms };
   }
 
   @SubscribeMessage(EVENT_JOIN_ROOM)
@@ -70,10 +79,10 @@ export class EventsGateway
     @MessageBody() room_name: string,
   ) {
     socket.join(room_name);
-    this.logger.debug(`join_room : ${room_name}`);
+    this.logger.debug(`${EVENT_JOIN_ROOM} : ${room_name}`);
 
-    socket.to(room_name).emit('enter', { nickname: socket.id });
-    return { event: 'join_room', data: { room_name } };
+    socket.to(room_name).emit(EVENT_ENTER, { nickname: socket.id });
+    return { event: `${EVENT_JOIN_ROOM}`, data: { room_name } };
   }
 
   @SubscribeMessage(EVENT_LEAVE_ROOM)
@@ -82,10 +91,34 @@ export class EventsGateway
     @MessageBody() room_name: string,
   ) {
     socket.leave(room_name);
-    this.logger.debug(`leave_room : ${room_name}`);
+    this.logger.debug(`${EVENT_LEAVE_ROOM} : ${room_name}`);
 
-    socket.to(room_name).emit('leave', { nickname: socket.id });
-    return { event: 'leave_room', data: { room_name } };
+    socket.to(room_name).emit(EVENT_LEAVE, { nickname: socket.id });
+    return { event: EVENT_LEAVE_ROOM, data: { room_name } };
+  }
+
+  @SubscribeMessage(EVENT_OFFER)
+  offer(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() payload: OfferAnswerPayload,
+  ) {
+    socket.to(payload.roomName).emit(EVENT_OFFER, payload);
+  }
+
+  @SubscribeMessage(EVENT_ANSWER)
+  answer(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() payload: OfferAnswerPayload,
+  ) {
+    socket.to(payload.roomName).emit(EVENT_ANSWER, payload);
+  }
+
+  @SubscribeMessage(EVENT_ICE)
+  iceCandidate(
+    @ConnectedSocket() socket: Socket,
+    @MessageBody() payload: IceCandidatePayload,
+  ) {
+    socket.to(payload.roomName).emit(EVENT_ICE, payload);
   }
 
   @SubscribeMessage('events')

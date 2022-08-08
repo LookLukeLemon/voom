@@ -6,9 +6,9 @@ const RoomPage = () => {
   const router = useRouter();
   const { roomName } = router.query;
 
-  // if (!roomName || Array.isArray(roomName)) return null;
+  if (!roomName || Array.isArray(roomName)) return null;
 
-  return <Room />;
+  return <Room roomName={roomName} />;
 };
 
 export default RoomPage;
