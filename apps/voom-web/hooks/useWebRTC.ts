@@ -1,18 +1,40 @@
-import { EVENT_ANSWER, EVENT_ICE, EVENT_OFFER } from 'common/Constants';
-import { myPeerConnAtom, peerStreamsMapAtom } from 'common/store/room';
-import { IceCandidatePayload, OfferAnswerPayload } from 'common/types';
+import {
+  CHAT_CHANNEL,
+  EVENT_ANSWER,
+  EVENT_ICE,
+  EVENT_OFFER,
+} from 'common/Constants';
+import {
+  myDataChannelAtom,
+  myPeerConnAtom,
+  peerStreamsMapAtom,
+} from 'common/store/room';
+import { messagesAtom } from 'common/store/room/chat';
+import {
+  ChatMessage,
+  IceCandidatePayload,
+  OfferAnswerPayload,
+} from 'common/types';
 import { useAtomValue, useSetAtom } from 'jotai';
+import { nanoid } from 'nanoid';
 import { useEffect } from 'react';
 import useSocket from './useSocket';
 
 const useWebRTC = (mediaStream: MediaStream | null) => {
   const myPeerConn = useAtomValue(myPeerConnAtom);
+  const myDataChannel = useAtomValue(myDataChannelAtom);
+  const setMessages = useSetAtom(messagesAtom);
   const setMyPeerConn = useSetAtom(myPeerConnAtom);
+  const setMyDataChannel = useSetAtom(myDataChannelAtom);
   const setPeerStreamsMap = useSetAtom(peerStreamsMapAtom);
   let roomNameForICE = '';
 
   const handleReceiveOffer = async (payload: OfferAnswerPayload) => {
     if (myPeerConn) {
+      myPeerConn.addEventListener('datachannel', (event) => {
+        setMyDataChannel(event.channel);
+        event.channel.addEventListener('message', handleReceiveChannelMessage);
+      });
       await myPeerConn.setRemoteDescription(payload.payload);
       const answer = await myPeerConn.createAnswer();
       await myPeerConn.setLocalDescription(answer);
@@ -74,6 +96,21 @@ const useWebRTC = (mediaStream: MediaStream | null) => {
     }
   };
 
+  const handleReceiveChannelMessage = (event: MessageEvent) => {
+    const payload: ChatMessage = JSON.parse(event.data);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: nanoid(),
+        from: payload.from,
+        nickname: payload.nickname,
+        type: payload.type,
+        payload: payload.payload,
+      },
+    ]);
+  };
+
   const makePeerConnection = (roomName: string) => {
     if (!mediaStream || !process.env.NEXT_PUBLIC_STUN_GOOGLE_LIST) return;
 
@@ -104,17 +141,32 @@ const useWebRTC = (mediaStream: MediaStream | null) => {
     }
   };
 
+  const makeDataChannel = (peerConn: RTCPeerConnection, label: string) => {
+    if (!peerConn || !label) return;
+
+    const dataChannel = peerConn.createDataChannel(label);
+    setMyDataChannel(dataChannel);
+    dataChannel.addEventListener('message', handleReceiveChannelMessage);
+  };
+
   useEffect(() => {
     return () => {
       if (myPeerConn) {
         myPeerConn.removeEventListener('icecandidate', handleICE);
         myPeerConn.removeEventListener('track', handleTrack);
       }
+      if (myDataChannel) {
+        myDataChannel.removeEventListener(
+          'message',
+          handleReceiveChannelMessage,
+        );
+      }
     };
   });
 
   return {
     makePeerConnection,
+    makeDataChannel,
     sendOffer,
     sendAnswer,
   };

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   DocumentAddIcon,
   MicrophoneIcon,
   UploadIcon,
 } from '@heroicons/react/outline';
+import useChat from 'hooks/useChat';
 
 const ChatAction = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { onSendMessage } = useChat();
   return (
     <div className="h-24 p-6 py-5 text-sm">
       <div className="flex h-full flex-col">
@@ -16,10 +19,19 @@ const ChatAction = () => {
         </div>
         <div className="flex-1 flex">
           <input
-            className=" bg-voom_base_primary outline-none border-none placehoder-voom_base_third flex-1"
+            ref={inputRef}
+            className="bg-voom_base_primary outline-none border-none placehoder-voom_base_third flex-1"
             placeholder="Type to write a message"
           />
-          <button className="bg-voom_primary px-4 py-1.5 rounded-xl">
+          <button
+            className="bg-voom_primary px-4 py-1.5 rounded-xl"
+            onClick={() => {
+              if (inputRef.current?.value) {
+                onSendMessage(inputRef.current.value);
+                inputRef.current.value = '';
+              }
+            }}
+          >
             Send
           </button>
         </div>
