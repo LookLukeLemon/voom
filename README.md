@@ -4,7 +4,7 @@
 
 - WebSocket
 - Socket.io
-- Signaling using socket.io
+- Signaling using socket.io (Offer, Answer, ICE candidate)
 - Transfer streaming video, audio and data
 - Data channel
 - Adapter for LBCancel changes
@@ -27,6 +27,7 @@
 - [x] Fetch Public Rooms
 - [x] Create / Join / Leave Room
 - [x] Boradcast Enter / Leave Message on Chat
+- [x] Signaling (Offer, Answer, ICE candidate, Link remote stream)
 - [ ] Chat by text
 - [ ] Chat with emoji
 - [ ] Transfer images
