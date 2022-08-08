@@ -32,3 +32,5 @@
 - [ ] Chat with emoji
 - [ ] Transfer images
 - [ ] Transfer media
+- [ ] List Participants
+- [ ] List Viewers
