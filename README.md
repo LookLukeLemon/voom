@@ -7,7 +7,9 @@
 - Signaling using socket.io (Offer, Answer, ICE candidate)
 - Transfer streaming video, audio and data
 - Data channel
-- Adapter for LBCancel changes
+- Adapter for LB
+- Scaling Challenge ( 1:1, 1:N, M:N)
+- Mediasoup for SFU
 
 ### What you need to understand
 
@@ -36,3 +38,7 @@
 - [ ] Transfer media
 - [ ] List Participants
 - [ ] List Viewers
+- [x] 1:1 P2P
+- [x] M:N P2P
+- [ ] 1:N MCU
+- [ ] 1:N SFU
