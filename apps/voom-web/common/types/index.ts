@@ -56,7 +56,7 @@ export type ChatMessage = {
   payload: string;
 };
 
-export type EnteredPayload = {
+export type EnteredLeavedPayload = {
   nickname: string;
   socketId: string;
 };

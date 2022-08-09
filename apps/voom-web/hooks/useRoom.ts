@@ -1,5 +1,10 @@
-import { roomsAtom } from 'common/store/room';
-import { PublicRoomType } from 'common/types';
+import {
+  myDataChannelsAtom,
+  myPeerConnectionsAtom,
+  myPeerStreamsAtom,
+  roomsAtom,
+} from 'common/store/room';
+import { EnteredLeavedPayload, PublicRoomType } from 'common/types';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
@@ -7,6 +12,7 @@ import {
   EVENT_ENTER,
   EVENT_FETCH_ROOMS,
   EVENT_JOIN_ROOM,
+  EVENT_LEAVE,
   EVENT_LEAVE_ROOM,
 } from '../common/Constants';
 import useSocket from './useSocket';
@@ -18,13 +24,37 @@ const useRoom = ({
 }) => {
   const router = useRouter();
   const setRooms = useSetAtom(roomsAtom);
+  const setMyPeerConnections = useSetAtom(myPeerConnectionsAtom);
+  const setMyDataChannels = useSetAtom(myDataChannelsAtom);
+  const setMyPeerStreams = useSetAtom(myPeerStreamsAtom);
 
   const handleReceiveJoinRoom = (data: any) => {
     router.push(`/room/${data.room_name}`);
   };
 
-  const handleReceiveLeaveRoom = (data: any) => {
+  const handleReceiveLeaveRoom = (payload: EnteredLeavedPayload) => {
     router.push(`/`);
+  };
+
+  const handleReceiveLeave = (payload: EnteredLeavedPayload) => {
+    setMyDataChannels((dataChannels) => {
+      const targetDataChannel = dataChannels.get(payload.socketId);
+      targetDataChannel?.close();
+      dataChannels.delete(payload.socketId);
+      return new Map(dataChannels);
+    });
+
+    setMyPeerStreams((peerStreams) => {
+      peerStreams.delete(payload.socketId);
+      return new Map(peerStreams);
+    });
+
+    setMyPeerConnections((peerConnections) => {
+      const targetPeer = peerConnections.get(payload.socketId);
+      targetPeer?.close();
+      peerConnections.delete(payload.socketId);
+      return new Map(peerConnections);
+    });
   };
 
   const handleReceiveRooms = (data: PublicRoomType[]) => {
@@ -35,6 +65,7 @@ const useRoom = ({
     { event: EVENT_FETCH_ROOMS, data: handleReceiveRooms },
     { event: EVENT_JOIN_ROOM, data: handleReceiveJoinRoom },
     { event: EVENT_LEAVE_ROOM, data: handleReceiveLeaveRoom },
+    { event: EVENT_LEAVE, data: handleReceiveLeave },
     { event: EVENT_ENTER, data: onReceiveEntered },
   ]);
 
