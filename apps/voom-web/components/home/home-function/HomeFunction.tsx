@@ -1,7 +1,6 @@
 import React from 'react';
 import FunctionItem from './FunctionItem';
 import FunctionList from './FuntionList';
-import NewRoom from '../../new-room';
 import useHomeFunction from './useHomeFunction';
 
 const HomeFunction = () => {

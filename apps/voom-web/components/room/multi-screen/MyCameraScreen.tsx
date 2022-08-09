@@ -1,6 +1,6 @@
 import { CHAT_CHANNEL } from 'common/Constants';
 import { isMyCameraMutedAtom, isMyCameraVisibleAtom } from 'common/store/room';
-import { CameraScreenType, EnteredPayload } from 'common/types';
+import { CameraScreenType, EnteredLeavedPayload } from 'common/types';
 import CameraButton from 'components/common/CameraButton/CameraButton';
 import MuteButton from 'components/common/MuteButton/MuteButton';
 import useRoom from 'hooks/useRoom';
@@ -60,7 +60,7 @@ const MyCameraScreen = ({ roomName }: { roomName: string }) => {
   const { makePeerConnection, makeDataChannel, sendOffer } =
     useWebRTC(myStream);
 
-  const handleReceiveEntered = async (payload: EnteredPayload) => {
+  const handleReceiveEntered = async (payload: EnteredLeavedPayload) => {
     const peerConn = makePeerConnection(payload.socketId);
     if (!peerConn) return;
 

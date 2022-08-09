@@ -92,6 +92,7 @@ export class EventsGateway
     socket
       .to(room_name)
       .emit(EVENT_ENTER, { nickname: socket.id, socketId: socket.id });
+
     return { event: `${EVENT_JOIN_ROOM}`, data: { room_name } };
   }
 
