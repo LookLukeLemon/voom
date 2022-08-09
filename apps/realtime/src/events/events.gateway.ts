@@ -54,7 +54,9 @@ export class EventsGateway
   handleDisconnecting(socket: Socket) {
     this.logger.debug(`${EVENT_DISCONNECTING} : ${socket.id}`);
     socket.rooms.forEach((room) =>
-      socket.to(room).emit(EVENT_LEAVE, { nickname: socket.id }),
+      socket
+        .to(room)
+        .emit(EVENT_LEAVE, { nickname: socket.id, socketId: socket.id }),
     );
   }
 
@@ -62,14 +64,20 @@ export class EventsGateway
   async getPublicRooms(
     @ConnectedSocket() socket: Socket,
   ): Promise<WsResponse<any>> {
-    const allSocks = await this.server.fetchSockets();
-    const publicRooms = [
-      ...new Set(
-        allSocks.flatMap((sock) =>
-          [...sock.rooms].filter((r) => r !== sock.id),
-        ),
-      ),
-    ];
+    const socketIds = [...this.server.sockets.sockets.keys()];
+    const allRooms = [...this.server.sockets.adapter.rooms];
+    const publicRooms = allRooms
+      .filter((room) => {
+        const [key, value]: [key: string, value: Set<string>] = room;
+
+        return !socketIds.some((id) => id === key);
+      })
+      .map((room) => {
+        const [key, value]: [key: string, value: Set<string>] = room;
+
+        return { key, value: [...value] };
+      });
+
     return { event: EVENT_ROOMS, data: publicRooms };
   }
 
@@ -81,7 +89,9 @@ export class EventsGateway
     socket.join(room_name);
     this.logger.debug(`${EVENT_JOIN_ROOM} : ${room_name}`);
 
-    socket.to(room_name).emit(EVENT_ENTER, { nickname: socket.id });
+    socket
+      .to(room_name)
+      .emit(EVENT_ENTER, { nickname: socket.id, socketId: socket.id });
     return { event: `${EVENT_JOIN_ROOM}`, data: { room_name } };
   }
 
@@ -93,7 +103,9 @@ export class EventsGateway
     socket.leave(room_name);
     this.logger.debug(`${EVENT_LEAVE_ROOM} : ${room_name}`);
 
-    socket.to(room_name).emit(EVENT_LEAVE, { nickname: socket.id });
+    socket
+      .to(room_name)
+      .emit(EVENT_LEAVE, { nickname: socket.id, socketId: socket.id });
     return { event: EVENT_LEAVE_ROOM, data: { room_name } };
   }
 
@@ -102,7 +114,9 @@ export class EventsGateway
     @ConnectedSocket() socket: Socket,
     @MessageBody() payload: OfferAnswerPayload,
   ) {
-    socket.to(payload.roomName).emit(EVENT_OFFER, payload);
+    socket
+      .to(payload.socketId)
+      .emit(EVENT_OFFER, { ...payload, socketId: socket.id });
   }
 
   @SubscribeMessage(EVENT_ANSWER)
@@ -110,7 +124,9 @@ export class EventsGateway
     @ConnectedSocket() socket: Socket,
     @MessageBody() payload: OfferAnswerPayload,
   ) {
-    socket.to(payload.roomName).emit(EVENT_ANSWER, payload);
+    socket
+      .to(payload.socketId)
+      .emit(EVENT_ANSWER, { ...payload, socketId: socket.id });
   }
 
   @SubscribeMessage(EVENT_ICE)
@@ -118,7 +134,9 @@ export class EventsGateway
     @ConnectedSocket() socket: Socket,
     @MessageBody() payload: IceCandidatePayload,
   ) {
-    socket.to(payload.roomName).emit(EVENT_ICE, payload);
+    socket
+      .to(payload.socketId)
+      .emit(EVENT_ICE, { ...payload, socketId: socket.id });
   }
 
   @SubscribeMessage('events')

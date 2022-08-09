@@ -22,12 +22,16 @@ const Rooms = () => {
     <div className="grid grid-cols-3 gap-4">
       {rooms.map((r, idx) => (
         <RoomItem
-          key={r}
-          roomName={r}
+          key={r.key}
+          roomName={r.key}
+          participants={r.value}
           idx={idx}
           onJoinRoom={() => {
-            makePeerConnection(r);
-            onJoinRoom(r);
+            r.value.map((peerSocketId) => {
+              makePeerConnection(peerSocketId);
+            });
+
+            onJoinRoom(r.key);
           }}
         />
       ))}

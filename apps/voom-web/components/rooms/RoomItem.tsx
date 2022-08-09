@@ -4,12 +4,14 @@ import AvatarImage from 'public/images/avatar.svg';
 
 const RoomItem = ({
   roomName,
+  participants,
   idx,
   onJoinRoom,
 }: {
   roomName: string;
+  participants: string[];
   idx: number;
-  onJoinRoom: (roomName: string) => void;
+  onJoinRoom: () => void;
 }) => {
   return (
     <div
@@ -28,23 +30,27 @@ const RoomItem = ({
 
       <div className="flex-1 h-full flex items-end">
         <div className="flex gap-2 flex-1">
-          <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-            <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
-          </div>
-          <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-            <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
-          </div>
-          <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
-            <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
-          </div>
-          <div className="relative h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
-            +6
-          </div>
+          {participants.slice(0, 2).map((p) => {
+            return (
+              <div
+                key={p}
+                className="relative h-12 aspect-square rounded-xl overflow-hidden"
+              >
+                <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
+              </div>
+            );
+          })}
+
+          {participants.length > 2 && (
+            <div className="relative h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
+              {`+${participants.length - 2}`}
+            </div>
+          )}
         </div>
 
         <button
           className="bg-voom_primary h-12 px-6 rounded-xl"
-          onClick={() => onJoinRoom(roomName)}
+          onClick={onJoinRoom}
         >
           Join
         </button>

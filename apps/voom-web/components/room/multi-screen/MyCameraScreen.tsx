@@ -1,6 +1,6 @@
 import { CHAT_CHANNEL } from 'common/Constants';
 import { isMyCameraMutedAtom, isMyCameraVisibleAtom } from 'common/store/room';
-import { CameraScreenType } from 'common/types';
+import { CameraScreenType, EnteredPayload } from 'common/types';
 import CameraButton from 'components/common/CameraButton/CameraButton';
 import MuteButton from 'components/common/MuteButton/MuteButton';
 import useRoom from 'hooks/useRoom';
@@ -16,7 +16,7 @@ const MyCameraScreenCore = ({
 }: CameraScreenType) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   // FIXME: change nickname after auth
-  const nickname = 'Nicolas';
+  const nickname = 'Luke';
   const isMyCameraMuted = useAtomValue(isMyCameraMutedAtom);
   const isMyCameraVisible = useAtomValue(isMyCameraVisibleAtom);
 
@@ -60,14 +60,14 @@ const MyCameraScreen = ({ roomName }: { roomName: string }) => {
   const { makePeerConnection, makeDataChannel, sendOffer } =
     useWebRTC(myStream);
 
-  const handleReceiveEntered = async (payload: any) => {
-    const peerConn = makePeerConnection(roomName);
+  const handleReceiveEntered = async (payload: EnteredPayload) => {
+    const peerConn = makePeerConnection(payload.socketId);
     if (!peerConn) return;
 
-    makeDataChannel(peerConn, CHAT_CHANNEL);
+    makeDataChannel(payload.socketId, peerConn, CHAT_CHANNEL);
     const offer = await peerConn.createOffer();
-    peerConn.setLocalDescription(offer);
-    sendOffer({ payload: offer, roomName });
+    await peerConn.setLocalDescription(offer);
+    sendOffer({ payload: offer, roomName, socketId: payload.socketId });
   };
 
   useRoom({

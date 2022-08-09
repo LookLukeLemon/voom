@@ -1,4 +1,5 @@
 import { roomsAtom } from 'common/store/room';
+import { PublicRoomType } from 'common/types';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
@@ -26,7 +27,7 @@ const useRoom = ({
     router.push(`/`);
   };
 
-  const handleReceiveRooms = (data: any) => {
+  const handleReceiveRooms = (data: PublicRoomType[]) => {
     setRooms((prev) => data);
   };
 
