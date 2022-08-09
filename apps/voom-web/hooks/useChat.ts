@@ -9,16 +9,17 @@ import {
 import useSocket from './useSocket';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { messagesAtom } from 'common/store/room/chat';
-import { myDataChannelAtom, myStreamAtom } from 'common/store/room';
+import { myDataChannelsAtom, myStreamAtom } from 'common/store/room';
 
 const useChat = () => {
   const myStream = useAtomValue(myStreamAtom);
-  const myDataChannel = useAtomValue(myDataChannelAtom);
+  const myDataChannels = useAtomValue(myDataChannelsAtom);
   const messages = useAtomValue(messagesAtom);
   const setMessages = useSetAtom(messagesAtom);
 
   const handleEntered = ({ nickname }: { nickname: string }) => {
     if (!myStream) return;
+
     setMessages((prevMessages) => [
       ...prevMessages,
       {
@@ -33,6 +34,7 @@ const useChat = () => {
 
   const handleLeaved = ({ nickname }: { nickname: string }) => {
     if (!myStream) return;
+
     setMessages((prevMessages) => [
       ...prevMessages,
       {
@@ -51,7 +53,7 @@ const useChat = () => {
   ]);
 
   const handleSendMessage = (message: string) => {
-    if (!myDataChannel || !myStream) return;
+    if (!myDataChannels || !myStream) return;
 
     const payload = {
       type: CHAT_MSG_TYPE.CONTENT,
@@ -60,7 +62,10 @@ const useChat = () => {
       payload: message,
     };
 
-    myDataChannel.send(JSON.stringify(payload));
+    myDataChannels.forEach((dataChannel) => {
+      dataChannel.send(JSON.stringify(payload));
+    });
+
     setMessages((prevMessages) => [
       ...prevMessages,
       {

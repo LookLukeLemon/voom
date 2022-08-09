@@ -1,54 +1,64 @@
+import { EVENT_ANSWER, EVENT_ICE, EVENT_OFFER } from 'common/Constants';
 import {
-  CHAT_CHANNEL,
-  EVENT_ANSWER,
-  EVENT_ICE,
-  EVENT_OFFER,
-} from 'common/Constants';
-import {
-  myDataChannelAtom,
-  myPeerConnAtom,
-  peerStreamsMapAtom,
+  myDataChannelsAtom,
+  myPeerConnectionsAtom,
+  myPeerStreamsAtom,
 } from 'common/store/room';
 import { messagesAtom } from 'common/store/room/chat';
 import {
   ChatMessage,
   IceCandidatePayload,
   OfferAnswerPayload,
+  PeerState,
 } from 'common/types';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { nanoid } from 'nanoid';
-import { useEffect } from 'react';
+
 import useSocket from './useSocket';
 
 const useWebRTC = (mediaStream: MediaStream | null) => {
-  const myPeerConn = useAtomValue(myPeerConnAtom);
-  const myDataChannel = useAtomValue(myDataChannelAtom);
+  const myPeerConnections = useAtomValue(myPeerConnectionsAtom);
+  const myDataChannels = useAtomValue(myDataChannelsAtom);
   const setMessages = useSetAtom(messagesAtom);
-  const setMyPeerConn = useSetAtom(myPeerConnAtom);
-  const setMyDataChannel = useSetAtom(myDataChannelAtom);
-  const setPeerStreamsMap = useSetAtom(peerStreamsMapAtom);
-  let roomNameForICE = '';
+  const setMyPeerConnections = useSetAtom(myPeerConnectionsAtom);
+  const setMyDataChannels = useSetAtom(myDataChannelsAtom);
+  const setMyPeerStreamsMap = useSetAtom(myPeerStreamsAtom);
 
   const handleReceiveOffer = async (payload: OfferAnswerPayload) => {
-    if (myPeerConn) {
-      myPeerConn.addEventListener('datachannel', (event) => {
-        setMyDataChannel(event.channel);
+    const targetPeer = myPeerConnections.get(payload.socketId);
+
+    if (targetPeer) {
+      targetPeer.addEventListener('datachannel', (event) => {
+        setMyDataChannels(
+          new Map(myDataChannels.set(payload.socketId, event.channel)),
+        );
         event.channel.addEventListener('message', handleReceiveChannelMessage);
       });
-      await myPeerConn.setRemoteDescription(payload.payload);
-      const answer = await myPeerConn.createAnswer();
-      await myPeerConn.setLocalDescription(answer);
-      sendAnswer({ roomName: payload.roomName, payload: answer });
+      await targetPeer.setRemoteDescription(payload.payload);
+      const answer = await targetPeer.createAnswer();
+      await targetPeer.setLocalDescription(answer);
+
+      sendAnswer({
+        roomName: payload.roomName,
+        payload: answer,
+        socketId: payload.socketId,
+      });
     }
   };
 
   const handleReceiveAnswer = async (payload: OfferAnswerPayload) => {
-    await myPeerConn?.setRemoteDescription(payload.payload);
+    const targetPeer = myPeerConnections.get(payload.socketId);
+
+    if (targetPeer) {
+      await targetPeer.setRemoteDescription(payload.payload);
+    }
   };
 
   const handleReceiveICE = async (payload: IceCandidatePayload) => {
-    if (payload.payload) {
-      await myPeerConn?.addIceCandidate(payload.payload);
+    const targetPeer = myPeerConnections.get(payload.socketId);
+
+    if (targetPeer && payload.payload) {
+      await targetPeer.addIceCandidate(payload.payload);
     }
   };
 
@@ -66,34 +76,33 @@ const useWebRTC = (mediaStream: MediaStream | null) => {
     socket.emit(EVENT_ANSWER, payload);
   };
 
-  const handleICE = (data: RTCPeerConnectionIceEvent) => {
-    if (data.candidate && roomNameForICE) {
+  const handleICE = (
+    event: RTCPeerConnectionIceEvent,
+    peerSocketId: string,
+  ) => {
+    if (event.candidate) {
       socket.emit(EVENT_ICE, {
-        payload: data.candidate,
-        roomName: roomNameForICE,
+        payload: event.candidate,
+        socketId: peerSocketId,
       });
     }
   };
 
-  const handleTrack = (data: RTCTrackEvent) => {
-    const peerStreamsMap = new Map();
+  const handleTrack = (event: RTCTrackEvent, peerSocketId: string) => {
+    let peerState: PeerState;
 
-    data.streams.forEach((stream) => {
-      peerStreamsMap.set(stream.id, {
+    // at this point, we assume there is only one stream in there
+    event.streams.forEach((stream) => {
+      peerState = {
         stream,
         isVisible: true,
         isMuted: false,
-      });
+      };
     });
 
-    setPeerStreamsMap(peerStreamsMap);
-  };
-
-  const handleConnectionStateChange = (data: Event) => {
-    const connectionState = data.currentTarget as RTCPeerConnection;
-    if (connectionState.connectionState === 'disconnected') {
-      myPeerConn?.close();
-    }
+    setMyPeerStreamsMap(
+      (streamsMap) => new Map(streamsMap.set(peerSocketId, peerState)),
+    );
   };
 
   const handleReceiveChannelMessage = (event: MessageEvent) => {
@@ -111,7 +120,7 @@ const useWebRTC = (mediaStream: MediaStream | null) => {
     ]);
   };
 
-  const makePeerConnection = (roomName: string) => {
+  const makePeerConnection = (peerSocketId: string) => {
     if (!mediaStream || !process.env.NEXT_PUBLIC_STUN_GOOGLE_LIST) return;
 
     try {
@@ -123,48 +132,39 @@ const useWebRTC = (mediaStream: MediaStream | null) => {
           },
         ],
       });
-      newPeerConn.addEventListener('icecandidate', handleICE);
-      newPeerConn.addEventListener('track', handleTrack);
-      newPeerConn.addEventListener(
-        'connectionstatechange',
-        handleConnectionStateChange,
+      newPeerConn.addEventListener('icecandidate', (e) =>
+        handleICE(e, peerSocketId),
+      );
+      newPeerConn.addEventListener('track', (e) =>
+        handleTrack(e, peerSocketId),
       );
       mediaStream.getTracks().map((track) => {
         newPeerConn.addTrack(track, mediaStream);
       });
 
-      roomNameForICE = roomName;
-      setMyPeerConn(newPeerConn);
+      myPeerConnections.set(peerSocketId, newPeerConn);
+      setMyPeerConnections(new Map(myPeerConnections));
+
       return newPeerConn;
     } catch (err) {
       console.error(err);
     }
   };
 
-  const makeDataChannel = (peerConn: RTCPeerConnection, label: string) => {
+  const makeDataChannel = (
+    peerSocketId: string,
+    peerConn: RTCPeerConnection,
+    label: string,
+  ) => {
     if (!peerConn || !label) return;
 
     const dataChannel = peerConn.createDataChannel(label);
-    setMyDataChannel(dataChannel);
+    setMyDataChannels(new Map(myDataChannels.set(peerSocketId, dataChannel)));
     dataChannel.addEventListener('message', handleReceiveChannelMessage);
   };
 
-  useEffect(() => {
-    return () => {
-      if (myPeerConn) {
-        myPeerConn.removeEventListener('icecandidate', handleICE);
-        myPeerConn.removeEventListener('track', handleTrack);
-      }
-      if (myDataChannel) {
-        myDataChannel.removeEventListener(
-          'message',
-          handleReceiveChannelMessage,
-        );
-      }
-    };
-  });
-
   return {
+    socketId: socket.id,
     makePeerConnection,
     makeDataChannel,
     sendOffer,

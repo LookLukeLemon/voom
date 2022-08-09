@@ -13,7 +13,7 @@ const useSocket = (events: SocketEventInitProps[]) => {
 
     return () => {
       events.map((wsr) => {
-        socket.off(wsr.event);
+        socket.off(wsr.event, wsr.data);
       });
     };
   }, [events]);

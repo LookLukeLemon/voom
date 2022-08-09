@@ -33,11 +33,13 @@ export type CameraScreenType = {
 export type OfferAnswerPayload = {
   payload: RTCSessionDescriptionInit;
   roomName: string;
+  socketId: string;
 };
 
 export type IceCandidatePayload = {
   payload: RTCIceCandidate;
   roomName: string;
+  socketId: string;
 };
 
 export type PeerState = {
@@ -52,4 +54,14 @@ export type ChatMessage = {
   from: string;
   nickname: string;
   payload: string;
+};
+
+export type EnteredPayload = {
+  nickname: string;
+  socketId: string;
+};
+
+export type PublicRoomType = {
+  key: string;
+  value: string[];
 };

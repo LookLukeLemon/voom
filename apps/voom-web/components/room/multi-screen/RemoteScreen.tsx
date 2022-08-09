@@ -1,13 +1,13 @@
 import BaseImage from 'common/BaseImage';
-import { peerStreamsMapAtom } from 'common/store/room';
+import { myPeerStreamsAtom } from 'common/store/room';
 import { useAtomValue, useSetAtom } from 'jotai';
 import React from 'react';
 import VideoRatioScreen from './VideoRatioScreen';
 import AnonymousImage from 'public/images/anonymous.svg';
 
 const RemoteScreen = () => {
-  const peerStreamsMap = useAtomValue(peerStreamsMapAtom);
-  const setPeerStreamsMap = useSetAtom(peerStreamsMapAtom);
+  const peerStreamsMap = useAtomValue(myPeerStreamsAtom);
+  const setPeerStreamsMap = useSetAtom(myPeerStreamsAtom);
 
   const handleVisibleChange = (id: string, visible: boolean) => {
     const peerState = peerStreamsMap.get(id);
@@ -33,17 +33,17 @@ const RemoteScreen = () => {
 
   return (
     <div className="flex gap-6 mx-6 min-h-[200px]">
-      {[...peerStreamsMap.values()].map((peerState) => {
-        const { stream, isVisible, isMuted } = peerState;
+      {[...peerStreamsMap.entries()].map(([key, value]) => {
+        const { stream, isVisible, isMuted } = value;
 
         return (
           <VideoRatioScreen
-            key={stream.id}
+            key={key}
             mediaStream={stream}
             isMuted={isMuted}
             isVisible={isVisible}
-            onVisible={(visible) => handleVisibleChange(stream.id, visible)}
-            onMuted={(mute) => handleMuteChange(stream.id, mute)}
+            onVisible={(visible) => handleVisibleChange(key, visible)}
+            onMuted={(mute) => handleMuteChange(key, mute)}
           />
         );
       })}
