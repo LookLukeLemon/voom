@@ -1,5 +1,16 @@
 services:
-  web-staging:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    networks:
+      - reverse-proxy
+
+  web:
     build:
       context: ./apps/voom-web
       dockerfile: docker/staging/Dockerfile
@@ -7,22 +18,23 @@ services:
       #   - mongodb-primary
       #   - mongodb-secondary
       #   - mongodb-arbiter
-      - realtime-staging
-    image: web-staging
+      - realtime
+    image: web
     volumes:
       - ./apps/voom-web:/usr/src/app/web
       - /app/node_modules
     ports:
       - '3000:3000'
     networks:
+      - reverse-proxy
       - frontend-backend
 
-  realtime-staging:
+  realtime:
     build:
       context: .
       dockerfile: ./apps/realtime/Dockerfile
       target: staging
-    image: realtime-staging
+    image: realtime
     command: npm run start:staging realtime
     env_file:
       - ./apps/realtime/.env.staging
@@ -83,5 +95,6 @@ services:
 #     driver: local
 
 networks:
+  reverse-proxy:
   frontend-backend:
   backend-mongo:
