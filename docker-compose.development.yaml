@@ -1,5 +1,16 @@
 services:
-  web-development:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    networks:
+      - reverse-proxy
+
+  web:
     build:
       context: ./apps/voom-web
       dockerfile: docker/development/Dockerfile
@@ -7,22 +18,23 @@ services:
       #   - mongodb-primary
       #   - mongodb-secondary
       #   - mongodb-arbiter
-      - realtime-development
-    image: web-development
+      - realtime
+    image: web
     volumes:
       - ./apps/voom-web:/usr/src/app/web
       - /app/node_modules
     ports:
       - '3000:3000'
     networks:
+      - reverse-proxy
       - frontend-backend
 
-  realtime-development:
+  realtime:
     build:
       context: .
       dockerfile: ./apps/realtime/Dockerfile
       target: development
-    image: realtime-development
+    image: realtime
     command: npm run start:dev realtime
     env_file:
       - ./apps/realtime/.env.development
@@ -83,5 +95,6 @@ services:
 #     driver: local
 
 networks:
+  reverse-proxy:
   frontend-backend:
   backend-mongo:
