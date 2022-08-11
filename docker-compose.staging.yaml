@@ -1,0 +1,87 @@
+services:
+  web-staging:
+    build:
+      context: ./apps/voom-web
+      dockerfile: docker/staging/Dockerfile
+    depends_on:
+      #   - mongodb-primary
+      #   - mongodb-secondary
+      #   - mongodb-arbiter
+      - realtime-staging
+    image: web-staging
+    volumes:
+      - ./apps/voom-web:/usr/src/app/web
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+    networks:
+      - frontend-backend
+
+  realtime-staging:
+    build:
+      context: .
+      dockerfile: ./apps/realtime/Dockerfile
+      target: staging
+    image: realtime-staging
+    command: npm run start:staging realtime
+    env_file:
+      - ./apps/realtime/.env.staging
+    # depends_on:
+    #   - mongodb-primary
+    #   - mongodb-secondary
+    #   - mongodb-arbiter
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '5000:5000'
+    networks:
+      - frontend-backend
+      # - backend-mongo
+
+  # mongodb-primary:
+  #   image: docker.io/bitnami/mongodb:5.0
+  #   environment:
+  #     - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+  #     - MONGODB_REPLICA_SET_MODE=primary
+  #     - MONGODB_ROOT_PASSWORD=password123
+  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #   volumes:
+  #     - 'mongodb_master_data:/bitnami/mongodb'
+  #   ports:
+  #     - '27017:27017'
+  #   networks:
+  #     - backend-mongo
+
+  # mongodb-secondary:
+  #   image: docker.io/bitnami/mongodb:5.0
+  #   depends_on:
+  #     - mongodb-primary
+  #   environment:
+  #     - MONGODB_ADVERTISED_HOSTNAME=mongodb-secondary
+  #     - MONGODB_REPLICA_SET_MODE=secondary
+  #     - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+  #     - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #   networks:
+  #     - backend-mongo
+
+  # mongodb-arbiter:
+  #   image: docker.io/bitnami/mongodb:5.0
+  #   depends_on:
+  #     - mongodb-primary
+  #   environment:
+  #     - MONGODB_ADVERTISED_HOSTNAME=mongodb-arbiter
+  #     - MONGODB_REPLICA_SET_MODE=arbiter
+  #     - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
+  #     - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
+  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #   networks:
+  #     - backend-mongo
+# volumes:
+#   mongodb_master_data:
+#     driver: local
+
+networks:
+  frontend-backend:
+  backend-mongo:
