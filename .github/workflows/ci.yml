@@ -18,5 +18,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           script: |
             cd Voom
+            git reset --hard
             git pull -r
             docker compose -f docker-compose.development.yaml up --build -d
