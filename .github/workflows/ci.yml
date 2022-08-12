@@ -19,3 +19,4 @@ jobs:
           script: |
             cd Voom
             git pull -r
+            docker compose -f docker-compose.development.yaxml --build -d
