@@ -5,14 +5,12 @@ on:
     branches: ['develop']
 
 jobs:
-  build:
+  SSH:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
       - uses: actions/checkout@v3
-
-      - name: Pull source from server
+      - name: Pull source from repo
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_KEY }}
