@@ -13,6 +13,7 @@ jobs:
       - name: Pull source from repo
         uses: appleboy/ssh-action@master
         with:
+          command_timeout: 30m
           key: ${{ secrets.SSH_KEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
