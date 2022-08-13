@@ -27,8 +27,8 @@ jobs:
       - name: Setting env
         run: |
           pwd
-          echo "DEPLOY_ENV=${{ secrets.DEPLOY_ENV }}" >> actions-runner/_work/voom/voom/apps/realtime/.env.development
-          echo "PORT=${{ secrets.PORT }}" >> actions-runner/_work/voom/voom/apps/realtime/.env.development
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> actions-runner/_work/voom/voom/apps/voom-web/.env.development
-          echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=${{ secrets.NEXT_PUBLIC_STUN_GOOGLE_LIST }}" >> actions-runner/_work/voom/voom/apps/voom-web/.env.development
+          echo "DEPLOY_ENV=${{ secrets.DEPLOY_ENV }}" >> apps/realtime/.env.development
+          echo "PORT=${{ secrets.PORT }}" >> apps/realtime/.env.development
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/voom-web/.env.development
+          echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=${{ secrets.NEXT_PUBLIC_STUN_GOOGLE_LIST }}" >> apps/voom-web/.env.development
           cat .env.development
