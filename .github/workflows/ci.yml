@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: checkout repository
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - uses: actions/setup-node@v2
         with:
@@ -25,7 +25,7 @@ jobs:
           PORT: ${{ secrets.DEV_REALTIME_PORT }}
 
       - name: Pull source from repo
-      - uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           command_timeout: 30m
           key: ${{ secrets.SSH_KEY }}
