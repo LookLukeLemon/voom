@@ -12,10 +12,11 @@ jobs:
       - name: checkout repository
       - uses: actions/checkout@v3
 
-      - name: generate environment file from secret
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+
+      - name: Generate Environment Variables File for Development
         run: |
           echo "DEPLOY_ENV=$DEPLOY_ENV" >> actions-runner/_work/voom/voom/realtime/.env.development
           echo "PORT=$PORT" >> actions-runner/_work/voom/voom/realtime/.env.development
@@ -24,7 +25,7 @@ jobs:
           PORT: ${{ secrets.DEV_REALTIME_PORT }}
 
       - name: Pull source from repo
-        uses: appleboy/ssh-action@master
+      - uses: appleboy/ssh-action@master
         with:
           command_timeout: 30m
           key: ${{ secrets.SSH_KEY }}
