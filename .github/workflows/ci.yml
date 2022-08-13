@@ -18,9 +18,8 @@ jobs:
 
       - name: Generate Environment Variables File for Development
         run: |
-          touch actions-runner/_work/voom/voom/realtime/.env.development
-          echo "DEPLOY_ENV=$DEV_REALTIME_DEPLOY_ENV" >> actions-runner/_work/voom/voom/realtime/.env.development
-          echo "PORT=$DEV_REALTIME_PORT" >> actions-runner/_work/voom/voom/realtime/.env.development
+          echo "DEPLOY_ENV=$DEV_REALTIME_DEPLOY_ENV" >> actions-runner/_work/voom/voom/apps/realtime/.env.development
+          echo "PORT=$DEV_REALTIME_PORT" >> actions-runner/_work/voom/voom/apps/realtime/.env.development
         env:
           DEV_REALTIME_DEPLOY_ENV: ${{ secrets.DEV_REALTIME_DEPLOY_ENV }}
           DEV_REALTIME_PORT: ${{ secrets.DEV_REALTIME_PORT }}
