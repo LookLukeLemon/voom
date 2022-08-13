@@ -19,6 +19,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           script: |
             whoami
-            pwd
-            cd voom
+            cd actions-runner/_work/voom/voom
             git pull origin develop
