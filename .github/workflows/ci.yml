@@ -31,4 +31,4 @@ jobs:
           echo "PORT=${{ secrets.PORT }}" >> apps/realtime/.env.development
           echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/voom-web/.env.development
           echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=${{ secrets.NEXT_PUBLIC_STUN_GOOGLE_LIST }}" >> apps/voom-web/.env.development
-          cat .env.development
+          cat apps/voom-web/.env.development
