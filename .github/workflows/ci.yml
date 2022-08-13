@@ -18,4 +18,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           script: |
-            echo hihi
+            whoami
+            git pull origin develop
