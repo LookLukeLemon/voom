@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          path: voom-repo
       - name: Pull source from repo
         uses: appleboy/ssh-action@master
         with:
@@ -18,4 +20,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           script: |
-            echo Something
+            cd voom
+            docker compose -f docker-compose.development.yaml up --build -d
