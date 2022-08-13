@@ -18,5 +18,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           script: |
-            cd Voom
+            cd voom
             docker compose -f docker-compose.development.yaml up --build -d
