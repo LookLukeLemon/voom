@@ -6,12 +6,10 @@ on:
 
 jobs:
   SSH:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: voom-repo
       - name: Pull source from repo
         uses: appleboy/ssh-action@master
         with:
