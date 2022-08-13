@@ -32,4 +32,5 @@ jobs:
           echo "NEXT_PUBLIC_API_URL=${{ secrets.DEV_WEB_NEXT_PUBLIC_API_URL }}" >> apps/voom-web/.env.development
           echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=${{ secrets.DEV_WEB_NEXT_PUBLIC_STUN_GOOGLE_LIST }}" >> apps/voom-web/.env.development
           cat apps/voom-web/.env.development
+          docker-compose -f docker-compose.development.yaml down
           docker-compose -f docker-compose.development.yaml up --build -d
