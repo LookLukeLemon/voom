@@ -9,16 +9,20 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Setting env
+        run: |
+          echo "DEPLOY_ENV=${{ secrets.DEPLOY_ENV }}" >> actions-runner/_work/voom/voom/apps/realtime/.env.development
+          echo "PORT=${{ secrets.PORT }}" >> actions-runner/_work/voom/voom/apps/realtime/.env.development
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> actions-runner/_work/voom/voom/apps/voom-web/.env.development
+          echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=${{ secrets.NEXT_PUBLIC_STUN_GOOGLE_LIST }}" >> actions-runner/_work/voom/voom/apps/voom-web/.env.development
+          cat .env.development
 
       - name: Pull source from repo
         uses: appleboy/ssh-action@master
-        env:
-          DEPLOY_ENV: ${{ secrets.DEV_REALTIME_DEPLOY_ENV }}
-          PORT: ${{ secrets.DEV_REALTIME_PORT }}
-          NEXT_PUBLIC_API_URL: ${{ secrets.DEV_WEB_NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_STUN_GOOGLE_LIST: ${{ secrets.DEV_WEB_NEXT_PUBLIC_STUN_GOOGLE_LIST }}
+
         with:
           command_timeout: 30m
           key: ${{ secrets.SSH_KEY }}
@@ -29,9 +33,4 @@ jobs:
             whoami
             cd actions-runner/_work/voom/voom
             git pull origin develop
-
-            echo "DEPLOY_ENV=$DEPLOY_ENV" >> apps/realtime/.env.development
-            echo "PORT=$PORT" >> apps/realtime/.env.development
-            echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> apps/voom-web/.env.development
-            echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=$NEXT_PUBLIC_STUN_GOOGLE_LIST" >> apps/voom-web/.env.development
             docker-compose -f docker-compose.development.yaml up --build -d
