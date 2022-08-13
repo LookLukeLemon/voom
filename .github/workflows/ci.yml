@@ -10,3 +10,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Pull source from repo
+        uses: appleboy/ssh-action@master
+        with:
+          command_timeout: 30m
+          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          script: |
+            whoami
+            git pull origin develop
