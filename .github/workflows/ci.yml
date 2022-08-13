@@ -9,6 +9,10 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: permission
+        run: |
+          sudo chown -R $USER:$USER /home/ec2-user/actions-runner/_work/voom
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
