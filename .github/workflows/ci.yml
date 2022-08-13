@@ -18,11 +18,11 @@ jobs:
 
       - name: Generate Environment Variables File for Development
         run: |
-          echo "DEPLOY_ENV=$DEPLOY_ENV" >> actions-runner/_work/voom/voom/realtime/.env.development
-          echo "PORT=$PORT" >> actions-runner/_work/voom/voom/realtime/.env.development
+          echo "DEPLOY_ENV=$DEV_REALTIME_DEPLOY_ENV" >> actions-runner/_work/voom/voom/realtime/.env.development
+          echo "PORT=$DEV_REALTIME_PORT" >> actions-runner/_work/voom/voom/realtime/.env.development
         env:
-          DEPLOY_ENV: ${{ secrets.DEV_REALTIME_DEPLOY_ENV }}
-          PORT: ${{ secrets.DEV_REALTIME_PORT }}
+          DEV_REALTIME_DEPLOY_ENV: ${{ secrets.DEV_REALTIME_DEPLOY_ENV }}
+          DEV_REALTIME_PORT: ${{ secrets.DEV_REALTIME_PORT }}
 
       - name: Pull source from repo
         uses: appleboy/ssh-action@master
