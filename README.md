@@ -10,6 +10,7 @@
 - Adapter for LB
 - Scaling Challenge ( 1:1, 1:N, M:N)
 - Mediasoup for SFU
+- CI (github actions + docker + nginx + certbot)
 
 ### What you need to understand
 
@@ -19,9 +20,12 @@
 - TURN
 - SDP
 
-- - -
+---
+
 ### TODO
+
 - [ ] JWT
+- [ ] Mobile responsive
 - [x] MyCamera Screen
 - [x] Participants Screen
 - [x] On / Off MyCamera
@@ -42,3 +46,4 @@
 - [x] M:N P2P
 - [ ] 1:N MCU
 - [ ] 1:N SFU
+      [x] SSL
