@@ -31,6 +31,7 @@ import { IceCandidatePayload, OfferAnswerPayload } from '../common/types';
 
 @WebSocketGateway({
   transports: ['websocket'],
+  cors: true,
 })
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
