@@ -32,7 +32,7 @@ const RemoteScreen = () => {
   };
 
   return (
-    <div className="flex gap-6 mx-6 min-h-[200px]">
+    <div className="flex gap-4 sm:gap-6 mx-4 sm:mx-6 min-h-[200px]">
       {[...peerStreamsMap.entries()].map(([key, value]) => {
         const { stream, isVisible, isMuted } = value;
 

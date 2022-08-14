@@ -14,7 +14,7 @@ const Room = ({ roomName }: { roomName: string }) => {
 
         <RoomFunction roomName={roomName} />
       </div>
-      <div className="w-96 flex flex-col divide-y divide-voom_base_third">
+      <div className="hidden w-96 md:flex flex-col divide-y divide-voom_base_third">
         <div className="flex-1 overflow-auto flex flex-col">
           <Participants />
           <Chat />

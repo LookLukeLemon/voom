@@ -9,6 +9,7 @@ import AvatarThreeImage from 'public/images/avatar-3.svg';
 import AvatarFourImage from 'public/images/avatar-4.svg';
 import AvatarFiveImage from 'public/images/avatar-5.svg';
 import BackImage from 'public/images/back.jpg';
+import { format } from 'date-fns';
 
 const Upcoming = () => {
   return (
@@ -17,8 +18,8 @@ const Upcoming = () => {
         <BaseImage src={BackImage} layout="fill" objectFit="cover" />
 
         <div className="flex absolute top-0 left-0 flex-col justify-end h-full p-8 gap-4 z-10">
-          <h2 className="text-6xl">12:59</h2>
-          <p>Tursday, 29 October 2021</p>
+          <h2 className="text-6xl">{format(new Date(), 'hh:mm')}</h2>
+          <p>{format(new Date(), 'EEEE MMM dd yyyy')}</p>
         </div>
       </div>
 
@@ -28,7 +29,7 @@ const Upcoming = () => {
             <h2 className="flex-1 text-lg font-semibold truncate">
               Design Daily Meeting
             </h2>
-            <button className="bg-voom_base_third px-3 py-1.5 border-zinc-500/20 border rounded-xl">
+            <button className="bg-voom_base_third hidden sm:block px-3 py-1.5 border-zinc-500/20 border rounded-xl">
               <DotsHorizontalIcon className="h-5 aspect-square text-zinc-500" />
             </button>
           </div>
@@ -37,12 +38,12 @@ const Upcoming = () => {
             <p className="truncate">{`10:00 ~ 11:30 | starts in 2 hours`}</p>
           </div>
 
-          <div className="flex-1 h-full flex items-end">
+          <div className="flex-1 h-full flex gap-2 items-end">
             <div className="flex gap-2 flex-1">
-              <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square rounded-xl overflow-hidden">
                 <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
               </div>
-              <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square rounded-xl overflow-hidden">
                 <BaseImage
                   src={AvatarTwoImage}
                   layout="fill"
@@ -51,7 +52,7 @@ const Upcoming = () => {
               </div>
             </div>
 
-            <button className="bg-voom_primary h-12 px-6 rounded-xl">
+            <button className="bg-voom_primar hidden md:block h-6 sm:h-8 md:h-10 lg:h-12 px-6 rounded-xl">
               Start
             </button>
           </div>
@@ -61,7 +62,7 @@ const Upcoming = () => {
             <h2 className="flex-1 text-lg font-semibold truncate">
               Marketing Daily Meeting
             </h2>
-            <button className="bg-voom_base_third px-3 py-1.5 border-zinc-500/20 border rounded-xl">
+            <button className="bg-voom_base_third hidden sm:block px-3 py-1.5 border-zinc-500/20 border rounded-xl">
               <DotsHorizontalIcon className="h-5 aspect-square text-zinc-500" />
             </button>
           </div>
@@ -70,13 +71,13 @@ const Upcoming = () => {
             <p className="truncate">{`10:00 ~ 11:30 | starts in 18 hours`}</p>
           </div>
 
-          <div className="flex-1 h-full flex items-end">
+          <div className="flex-1 h-full flex gap-2 items-end">
             <div className="flex gap-2 flex-1">
-              <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square rounded-xl overflow-hidden">
                 <BaseImage src={AvatarImage} layout="fill" objectFit="cover" />
               </div>
 
-              <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square rounded-xl overflow-hidden">
                 <BaseImage
                   src={AvatarThreeImage}
                   layout="fill"
@@ -85,7 +86,7 @@ const Upcoming = () => {
               </div>
             </div>
 
-            <button className="bg-voom_primary h-12 px-6 rounded-xl">
+            <button className="bg-voom_primary md:block hidden h-6 sm:h-8 md:h-10 lg:h-12 px-6 rounded-xl">
               Start
             </button>
           </div>
@@ -95,7 +96,7 @@ const Upcoming = () => {
             <h2 className="flex-1 text-lg font-semibold truncate">
               Management Meeting
             </h2>
-            <button className="bg-voom_base_third px-3 py-1.5 border-zinc-500/20 border rounded-xl">
+            <button className="bg-voom_base_third hidden sm:block px-3 py-1.5 border-zinc-500/20 border rounded-xl">
               <DotsHorizontalIcon className="h-5 aspect-square text-zinc-500" />
             </button>
           </div>
@@ -104,9 +105,9 @@ const Upcoming = () => {
             <p className="truncate">{`12:00 ~ 14:00 | starts in 3:30 hours`}</p>
           </div>
 
-          <div className="flex-1 h-full flex items-end">
+          <div className="flex-1 h-full flex gap-2 items-end">
             <div className="flex gap-2 flex-1">
-              <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square rounded-xl overflow-hidden">
                 <BaseImage
                   src={AvatarFiveImage}
                   layout="fill"
@@ -114,19 +115,19 @@ const Upcoming = () => {
                 />
               </div>
 
-              <div className="relative h-12 aspect-square rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square rounded-xl overflow-hidden">
                 <BaseImage
                   src={AvatarFourImage}
                   layout="fill"
                   objectFit="cover"
                 />
               </div>
-              <div className="relative h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
+              <div className="relative h-6 sm:h-8 md:h-10 lg:h-12 aspect-square bg-voom_primary flex justify-center items-center rounded-xl overflow-hidden">
                 +6
               </div>
             </div>
 
-            <button className="bg-voom_primary h-12 px-6 rounded-xl">
+            <button className="bg-voom_primary hidden md:block h-6 sm:h-8 md:h-10 lg:h-12 px-6 rounded-xl">
               Start
             </button>
           </div>
