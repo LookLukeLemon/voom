@@ -40,7 +40,7 @@ const NewRoom = () => {
             ref={roomNameRef}
             name="room_name"
             placeholder="Title goes here"
-            className="border-zinc-400 w-10 rounded-xl border flex-1 px-4 sm:px-6 outline-none"
+            className="border-zinc-400 w-[100px] sm:w-full rounded-xl border flex-1 px-4 sm:px-6 outline-none"
           />
         </div>
         <button

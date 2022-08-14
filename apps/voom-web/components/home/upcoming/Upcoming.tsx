@@ -18,8 +18,8 @@ const Upcoming = () => {
         <BaseImage src={BackImage} layout="fill" objectFit="cover" />
 
         <div className="flex absolute top-0 left-0 flex-col justify-end h-full p-8 gap-4 z-10">
-          <h2 className="text-6xl">{format(new Date(), 'hh:mm')}</h2>
-          <p>{format(new Date(), 'EEEE MMM dd yyyy')}</p>
+          {/* <h2 className="text-6xl">{format(new Date(), 'hh:mm')}</h2> */}
+          {/* <p>{format(new Date(), 'EEEE MMM dd yyyy')}</p> */}
         </div>
       </div>
 
