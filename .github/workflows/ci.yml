@@ -41,8 +41,8 @@ jobs:
           # 실행중인 컨테이너 종료
           docker-compose -f docker-compose.development.yaml down
 
+          cp -R docker-compose.development.yaml docker-compose.yaml
           # 인증서 발급받고 싶은 경우
-          # cp -R docker-compose.development.yaml docker-compose.yaml
           # sh init-letsencrypt.sh
 
           # 서비스들 띄우기
