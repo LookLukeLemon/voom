@@ -2,7 +2,7 @@ import {
   DotsHorizontalIcon,
   InformationCircleIcon,
 } from '@heroicons/react/outline';
-import BaseImage from 'components/common/BaseImage';
+import BaseImage from '@/components/common/BaseImage';
 import AvatarImage from 'public/images/avatar.svg';
 import AvatarTwoImage from 'public/images/avatar-2.svg';
 import AvatarThreeImage from 'public/images/avatar-3.svg';

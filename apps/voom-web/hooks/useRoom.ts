@@ -3,8 +3,8 @@ import {
   myPeerConnectionsAtom,
   myPeerStreamsAtom,
   roomsAtom,
-} from 'common/store/room';
-import { EnteredLeavedPayload, PublicRoomType } from 'common/types';
+} from '@/common/store/room';
+import { EnteredLeavedPayload, PublicRoomType } from '@/common/types';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 
@@ -14,7 +14,7 @@ import {
   EVENT_JOIN_ROOM,
   EVENT_LEAVE,
   EVENT_LEAVE_ROOM,
-} from '../common/Constants';
+} from '@/common/Constants';
 import useSocket from './useSocket';
 
 const useRoom = ({

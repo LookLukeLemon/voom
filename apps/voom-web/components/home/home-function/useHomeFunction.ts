@@ -1,10 +1,10 @@
-import { HomeFunctionProps } from 'common/types';
+import { HomeFunctionProps } from '@/common/types';
 import { useState } from 'react';
 import VoomImage from 'public/images/voom.svg';
 import PlusImage from 'public/images/plus-outline.svg';
 import CalendarImage from 'public/images/calendar.svg';
 import ScreenShareImage from 'public/images/screen-share.svg';
-import useRoom from '../../../hooks/useRoom';
+import useRoom from '@/hooks/useRoom';
 import {
   INFO_HOME_FUNCTION_JOIN_MEETING,
   INFO_HOME_FUNCTION_NEW_MEETING,
@@ -14,7 +14,7 @@ import {
   TITLE_HOME_FUNCTION_NEW_MEETING,
   TITLE_HOME_FUNCTION_SCHEDULE,
   TITLE_HOME_FUNCTION_SHARE_SCREEN,
-} from 'common/Constants';
+} from '@/common/Constants';
 import { useRouter } from 'next/router';
 
 const useHomeFunction = () => {

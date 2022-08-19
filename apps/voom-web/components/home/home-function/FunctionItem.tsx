@@ -1,4 +1,4 @@
-import BaseImage from 'components/common/BaseImage';
+import BaseImage from '@/components/common/BaseImage';
 import { HomeFunctionProps } from 'common/types';
 import React from 'react';
 

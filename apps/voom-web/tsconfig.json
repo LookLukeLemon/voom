@@ -18,6 +18,8 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/pages/*": ["pages/*"],
+      "@/common/*": ["common/*"],
+      "@/hooks/*": ["hooks/*"],
       "@/styles/*": ["styles/*"]
     }
   },

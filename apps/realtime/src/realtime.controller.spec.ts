@@ -14,9 +14,9 @@ describe('RealtimeController', () => {
     realtimeController = app.get<RealtimeController>(RealtimeController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(realtimeController.getHello()).toBe('Hello World!');
+  describe('Realtime', () => {
+    it('should contain "Hello World!"', () => {
+      expect(realtimeController.getHello()).toContain('Hello World!');
     });
   });
 });
