@@ -1,6 +1,6 @@
 import React from 'react';
 import AvatarImage from 'public/images/avatar.svg';
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 
 const Avatar = () => {
   return (

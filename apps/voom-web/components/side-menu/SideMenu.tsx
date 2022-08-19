@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseImage from '../../common/BaseImage';
+import BaseImage from '../common/BaseImage';
 import VoomImage from 'public/images/voom.svg';
 import HomeImage from 'public/images/home.svg';
 import UserImage from 'public/images/user.svg';

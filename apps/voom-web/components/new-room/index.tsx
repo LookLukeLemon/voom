@@ -1,4 +1,4 @@
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 import React, { useRef } from 'react';
 import AvatarImage from 'public/images/avatar.svg';
 import { InformationCircleIcon } from '@heroicons/react/outline';

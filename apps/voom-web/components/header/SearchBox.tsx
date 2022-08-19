@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchIcon from 'public/images/search-icon.svg';
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 
 const SearchBox = () => {
   return (

@@ -1,5 +1,5 @@
 import CommentImage from 'public/images/comment.svg';
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 import ChatMessage from './ChatMessage';
 import ChatMessageList from './ChatMessageList';
 import useChat from 'hooks/useChat';

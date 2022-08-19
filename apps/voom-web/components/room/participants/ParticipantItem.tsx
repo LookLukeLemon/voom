@@ -1,5 +1,5 @@
 import { MicrophoneIcon, VideoCameraIcon } from '@heroicons/react/solid';
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 import AvatarImage from 'public/images/avatar.svg';
 import React from 'react';
 

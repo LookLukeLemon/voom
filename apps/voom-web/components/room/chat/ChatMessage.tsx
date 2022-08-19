@@ -1,4 +1,4 @@
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 import { CHAT_MSG_TYPE } from 'common/Constants';
 import { myStreamAtom } from 'common/store/room';
 import { useAtomValue } from 'jotai';

@@ -1,4 +1,4 @@
-import BaseImage from 'common/BaseImage';
+import BaseImage from 'components/common/BaseImage';
 import { myPeerStreamsAtom } from 'common/store/room';
 import { useAtomValue, useSetAtom } from 'jotai';
 import React from 'react';
