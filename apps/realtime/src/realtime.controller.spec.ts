@@ -1,22 +1,40 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RealtimeController } from './realtime.controller';
 import { RealtimeService } from './realtime.service';
+import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
+
+const moduleMocker = new ModuleMocker(global);
 
 describe('RealtimeController', () => {
-  let realtimeController: RealtimeController;
+  let controller: RealtimeController;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const moduleRef = await Test.createTestingModule({
       controllers: [RealtimeController],
-      providers: [RealtimeService],
-    }).compile();
+    })
+      .useMocker((token) => {
+        if (token === RealtimeService) {
+          return {
+            getHello: jest.fn().mockResolvedValue(`Hello World!`),
+          };
+        }
 
-    realtimeController = app.get<RealtimeController>(RealtimeController);
+        if (typeof token === 'function') {
+          const mockMetadata = moduleMocker.getMetadata(
+            token,
+          ) as MockFunctionMetadata<any, any>;
+          const Mock = moduleMocker.generateFromMetadata(mockMetadata);
+          return new Mock();
+        }
+      })
+      .compile();
+
+    controller = moduleRef.get(RealtimeController);
   });
 
-  describe('Realtime', () => {
-    it('should contain "Hello World!"', () => {
-      expect(realtimeController.getHello()).toContain('Hello World!');
+  describe(`getHello()'`, () => {
+    it('should contain "Hello World!"', async () => {
+      expect(await controller.getHello()).toContain('Hello World!');
     });
   });
 });
