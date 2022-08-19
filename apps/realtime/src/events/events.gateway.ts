@@ -2,9 +2,6 @@ import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
@@ -14,6 +11,7 @@ import { randomUUID } from 'crypto';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Server, Socket } from 'socket.io';
+
 import {
   EVENT_ANSWER,
   EVENT_CONNECTED,
@@ -28,14 +26,13 @@ import {
   EVENT_ROOMS,
 } from '../common/Constants';
 import { IceCandidatePayload, OfferAnswerPayload } from '../common/types';
+import IEventGateway from './IEventGateway';
 
 @WebSocketGateway({
   transports: ['websocket'],
   cors: true,
 })
-export class EventsGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-{
+export class EventsGateway implements IEventGateway {
   private logger: Logger = new Logger('VoomGateway');
   @WebSocketServer()
   server: Server;
@@ -84,8 +81,8 @@ export class EventsGateway
 
   @SubscribeMessage(EVENT_JOIN_ROOM)
   joinRoom(
-    @ConnectedSocket() socket: Socket,
     @MessageBody() room_name: string,
+    @ConnectedSocket() socket: Socket,
   ) {
     socket.join(room_name);
     this.logger.debug(`${EVENT_JOIN_ROOM} : ${room_name}`);
@@ -99,8 +96,8 @@ export class EventsGateway
 
   @SubscribeMessage(EVENT_LEAVE_ROOM)
   leaveRoom(
-    @ConnectedSocket() socket: Socket,
     @MessageBody() room_name: string,
+    @ConnectedSocket() socket: Socket,
   ) {
     socket.leave(room_name);
     this.logger.debug(`${EVENT_LEAVE_ROOM} : ${room_name}`);
