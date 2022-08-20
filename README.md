@@ -9,7 +9,6 @@
 - Signaling using socket.io (Offer, Answer, ICE candidate)
 - Transfer streaming video, audio and data
 - Data channel
-- Adapter for LB
 - Scaling Challenge ( 1:1, 1:N, M:N)
 - Mediasoup for SFU
 - CI (github actions + docker + nginx + certbot)
