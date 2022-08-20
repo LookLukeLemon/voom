@@ -5,7 +5,23 @@ on:
     branches: [ "develop" ]
 
 jobs:
+  test:
+    name: Test on node 16.x
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+
+    - name: npm install, build and test
+      run: |
+        npm ci
+        npm test
   SSH:
+    needs: test
     runs-on: self-hosted
 
     steps:
