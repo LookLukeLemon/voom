@@ -9,4 +9,9 @@ export class RealtimeController {
   getHello(): string {
     return this.realtimeService.getHello();
   }
+
+  @Get()
+  ping(): boolean {
+    return this.realtimeService.ping();
+  }
 }

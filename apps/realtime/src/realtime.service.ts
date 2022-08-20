@@ -5,4 +5,8 @@ export class RealtimeService {
   getHello(): string {
     return `Hello World! ${process.env.DEPLOY_ENV}`;
   }
+
+  ping(): boolean {
+    return true;
+  }
 }

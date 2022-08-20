@@ -1,4 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { RealtimeController } from './realtime.controller';
 import { RealtimeService } from './realtime.service';
 import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
@@ -16,6 +16,7 @@ describe('RealtimeController', () => {
         if (token === RealtimeService) {
           return {
             getHello: jest.fn().mockResolvedValue(`Hello World!`),
+            ping: jest.fn().mockResolvedValue(true),
           };
         }
 
@@ -35,6 +36,12 @@ describe('RealtimeController', () => {
   describe(`getHello()'`, () => {
     it('should contain "Hello World!"', async () => {
       expect(await controller.getHello()).toContain('Hello World!');
+    });
+  });
+
+  describe(`ping()`, () => {
+    it('should return true', async () => {
+      expect(await controller.ping()).toBe(true);
     });
   });
 });
