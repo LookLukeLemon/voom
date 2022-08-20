@@ -2,22 +2,21 @@ name: Docker Image CI
 
 on:
   pull_request:
-    branches: [ "develop" ]
+    branches: ['develop']
 
 jobs:
   test:
     name: Test on node 16.x
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
-        cache: 'npm'
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'npm'
 
-    - name: npm install, build and test
-      run: |
-        npm ci
-        npm test
- 
+      - name: npm install, build and test
+        run: |
+          npm ci
+          npm test
