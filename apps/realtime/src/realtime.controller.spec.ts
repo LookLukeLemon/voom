@@ -41,7 +41,7 @@ describe('RealtimeController', () => {
 
   describe(`ping()`, () => {
     it('should return true', async () => {
-      expect(await controller.ping()).toBe(true);
+      expect(await controller.ping()).toBe(false);
     });
   });
 });
