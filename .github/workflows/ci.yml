@@ -2,48 +2,21 @@ name: Docker Image CI
 
 on:
   pull_request:
-    branches: [ "develop" ]
+    branches: ['develop']
 
 jobs:
-  SSH:
-    runs-on: self-hosted
-
+  test:
+    name: Test on node 16.x
+    runs-on: ubuntu-latest
     steps:
-      - name: permission
-        run: |
-          sudo chown -R $USER:$USER /home/ec2-user/actions-runner/_work/voom
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Rebase source from repo
-        uses: appleboy/ssh-action@master
-
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
         with:
-          command_timeout: 30m
-          key: ${{ secrets.SSH_KEY }}
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          script: |
-            cd actions-runner/_work/voom/voom
-            git pull -r
+          node-version: 16.x
+          cache: 'npm'
 
-      - name: Setting env
+      - name: npm install, build and test
         run: |
-          pwd
-          echo "DEPLOY_ENV=${{ secrets.DEV_REALTIME_DEPLOY_ENV }}" >> apps/realtime/.env.development
-          echo "PORT=${{ secrets.DEV_REALTIME_PORT }}" >> apps/realtime/.env.development
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.DEV_WEB_NEXT_PUBLIC_API_URL }}" >> apps/voom-web/.env.development
-          echo "NEXT_PUBLIC_STUN_GOOGLE_LIST=${{ secrets.DEV_WEB_NEXT_PUBLIC_STUN_GOOGLE_LIST }}" >> apps/voom-web/.env.development
-
-      - name: Restart
-        run: |
-          # 실행중인 컨테이너 종료
-          docker-compose -f docker-compose.development.yaml down
-
-          cp -R docker-compose.development.yaml docker-compose.yaml
-          # 인증서 발급받고 싶은 경우
-          # sh init-letsencrypt.sh
-
-          # 서비스들 띄우기
-          docker-compose -f docker-compose.development.yaml up --build -d
+          npm ci
+          npm test
