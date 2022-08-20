@@ -28,7 +28,6 @@ jobs:
           echo The PR was merged
 
   SSH:
-    needs: test
     runs-on: self-hosted
 
     steps:
