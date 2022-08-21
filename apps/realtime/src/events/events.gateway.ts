@@ -10,8 +10,8 @@ import {
 import { randomUUID } from 'crypto';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Server, Socket } from 'socket.io';
 
+import { Server, Socket } from 'socket.io';
 import {
   EVENT_ANSWER,
   EVENT_CONNECTED,
