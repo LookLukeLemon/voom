@@ -2,7 +2,7 @@
 
 [![Docker Image CI](https://github.com/LookLukeLemon/voom/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/LookLukeLemon/voom/actions/workflows/ci.yml)
 
-![Voom](.github/assets/voom_diagram.png)
+![Voom](.github/voom_diagram.png)
 
 ### What you gonna do
 
