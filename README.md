@@ -2,7 +2,7 @@
 
 [![Docker Image CI](https://github.com/LookLukeLemon/voom/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/LookLukeLemon/voom/actions/workflows/ci.yml)
 
-![Tux, the Linux mascot](.github/assets/webrtc_flow_black.png)
+![Voom](.github/assets/webrtc_flow_white.png)
 
 ### What you gonna do
 
