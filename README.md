@@ -2,8 +2,24 @@
 
 [![Docker Image CI](https://github.com/LookLukeLemon/voom/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/LookLukeLemon/voom/actions/workflows/ci.yml)
 
+<table>
+  <tr>
+    <td>
+      <a href="https://voom.cf" target="_blank">
+        <img src=".github/assets/voom-1.webp" />
+      </a>
+    </td>
+    <td>
+      <a href="https://voom.cf" target="_blank">
+        <img src=".github/assets/voom-2.webp" />
+      </a>
+    </td>
+  </tr>
+</table>
+
 ### 👏 Voom Architecture
-![Voom](.github/voom_diagram.png)
+
+# ![Voom](.github/voom_diagram.png)
 
 ### What you gonna do
 
